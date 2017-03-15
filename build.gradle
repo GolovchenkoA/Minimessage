@@ -1,6 +1,5 @@
 //Root project configuration
 description = 'minimessage. Application like Twitter'
-baseName = 'minimessage'
 
 ext.gradleVersion = '3.4.1'
 ext.javaVersion = '1.8.0_73'
@@ -16,6 +15,11 @@ apply plugin: 'idea'
 allprojects{
 
 	group = projectIds.group
+
+	repositories {
+
+		mavenCentral()
+	}
 	
 }
 
@@ -23,7 +27,42 @@ allprojects{
 subprojects{
 
 	apply plugin: 'java'
-	
+	apply plugin: "jacoco"
+
+	ext{
+		junitVersion = '4.12'
+		mockitoVersion = '1.10.19'
+		springVersion = '3.0.5.RELEASE'
+		jacocoVersion = '0.7.9'
+	}
+
+
+	sourceSets {
+		test {
+			resources {
+				srcDirs = ['src/test/resources', 'src/test/java']
+			}
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		compile 'javax.inject:javax.inject:1'
+		testCompile "junit:junit:$junitVersion"
+		testCompile "org.mockito:mockito-all:$mockitoVersion"
+		testCompile "org.springframework:spring-test:$springVersion"
+	}
+
+
+	jacoco {
+		toolVersion = "${jacocoVersion}"
+		//reportsDir = file("$buildDir/customJacocoReportDir")
+	}
+
+test.finalizedBy(jacocoTestReport)
 }
 
 
@@ -46,7 +85,7 @@ project('minimessage-web'){
 	version = '1.0.0.SNAPSHOT'
 	description = 'Web'
 	
-	apply plugin: 'war'
+	//apply plugin: 'war'
 	
 }
 
