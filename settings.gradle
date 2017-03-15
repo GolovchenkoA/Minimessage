@@ -1,0 +1,6 @@
+rootProject.name = 'minimessage'
+
+include 'minimessage-model'
+include 'minimessage-dao'
+include 'minimessage-service'
+include 'minimessage-web'

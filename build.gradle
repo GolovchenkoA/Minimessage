@@ -1,0 +1,56 @@
+//Root project configuration
+description = 'minimessage. Application like Twitter'
+baseName = 'minimessage'
+
+ext.gradleVersion = '3.4.1'
+ext.javaVersion = '1.8.0_73'
+
+ext.projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.0.0.SNAPSHOT']
+
+
+version = projectIds.version
+
+apply plugin: 'idea'
+
+
+allprojects{
+
+	group = projectIds.group
+	
+}
+
+
+subprojects{
+
+	apply plugin: 'java'
+	
+}
+
+
+project('minimessage-model'){
+	version = '1.0.0.SNAPSHOT'
+	description = 'Domain models'
+}
+
+project('minimessage-dao'){
+	version = '1.0.0.SNAPSHOT'
+	description = 'Databases access object classes'
+}
+
+project('minimessage-service'){
+	version = '1.0.0.SNAPSHOT'
+	description = 'Services'
+}
+
+project('minimessage-web'){
+	version = '1.0.0.SNAPSHOT'
+	description = 'Web'
+	
+	apply plugin: 'war'
+	
+}
+
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.4.1'
+}
