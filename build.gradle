@@ -1,15 +1,20 @@
 //Root project configuration
+
+plugins {
+	// description Web Application Deployments With Gradle - Benjamin Muschko
+	id "com.bmuschko.cargo" version "2.2.3"
+	id "com.bmuschko.tomcat" version "2.2.5"
+}
+
+apply plugin: 'idea'
+
 description = 'minimessage. Application like Twitter'
 
 ext.gradleVersion = '3.4.1'
 ext.javaVersion = '1.8.0_73'
-
 ext.projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.0.0.SNAPSHOT']
 
-
 version = projectIds.version
-
-apply plugin: 'idea'
 
 
 allprojects{
@@ -17,10 +22,8 @@ allprojects{
 	group = projectIds.group
 
 	repositories {
-
 		mavenCentral()
 	}
-	
 }
 
 
@@ -28,6 +31,9 @@ subprojects{
 
 	apply plugin: 'java'
 	apply plugin: "jacoco"
+
+	sourceCompatibility = 1.8
+	targetCompatibility = '1.8'
 
 	ext{
 		junitVersion = '4.12'
@@ -47,6 +53,7 @@ subprojects{
 
 	repositories {
 		mavenCentral()
+		jcenter()
 	}
 
 	dependencies {
@@ -62,7 +69,8 @@ subprojects{
 		//reportsDir = file("$buildDir/customJacocoReportDir")
 	}
 
-test.finalizedBy(jacocoTestReport)
+	build.dependsOn(jacocoTestReport)
+	//test.finalizedBy(jacocoTestReport)
 }
 
 
@@ -81,12 +89,25 @@ project('minimessage-service'){
 	description = 'Services'
 }
 
-project('minimessage-web'){
+project('minimessage-web') {
+	apply plugin: "jetty"
+	apply plugin: 'project-report'
+	apply plugin: 'com.bmuschko.tomcat'
+	apply plugin: 'com.bmuschko.cargo'
+
+
 	version = '1.0.0.SNAPSHOT'
 	description = 'Web'
 	
-	//apply plugin: 'war'
-	
+	apply plugin: 'war'
+	dependencies {
+		compile project(':minimessage-model')
+		compile project(':minimessage-dao')
+		compile "org.springframework:spring-webmvc:$springVersion"
+		// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+		compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+
+	}
 }
 
 

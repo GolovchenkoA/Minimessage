@@ -3,9 +3,7 @@ package ua.golovchenko.artem.minimessage.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class MessageTest {
 
@@ -30,6 +28,7 @@ public class MessageTest {
 
     @Test
     public void testSetAccount() throws Exception {
+
         assertNull(message.getAccount());
 
         UserAccount account = new UserAccount();
@@ -43,6 +42,7 @@ public class MessageTest {
 
     @Test
     public void testSetText() throws Exception {
+
         String text = "New Message Test";
 
         assertNull(message.getText());
@@ -57,5 +57,11 @@ public class MessageTest {
     @Test
     public void testSetCreated() throws Exception {
 
+        java.util.Date messageCreated = new java.util.Date();
+
+        message.setCreated(messageCreated);
+
+        assertNotNull(messageCreated);
+        assertEquals(messageCreated, message.getCreated());
     }
 }

@@ -1,7 +1,5 @@
 package ua.golovchenko.artem.minimessage.model;
 
-import java.sql.Date;
-
 /**
  * Created by головченко on 15.03.2017.
  */
@@ -9,10 +7,14 @@ public class Message {
     private Long id;
     private UserAccount account;
     private String text;
-    private Date created;
+    private java.util.Date created;
 
+    public Message(){};
 
-
+    public Message(UserAccount account, String text) {
+        this.account = account;
+        this.text = text;
+    }
 
     public Long getId() {
         return id;
@@ -38,11 +40,11 @@ public class Message {
         this.text = text;
     }
 
-    public Date getCreated() {
+    public java.util.Date getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(java.util.Date created) {
         this.created = created;
     }
 }
