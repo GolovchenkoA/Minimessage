@@ -2,6 +2,8 @@
 
 plugins {
 	// description Web Application Deployments With Gradle - Benjamin Muschko
+	// https://codehaus-cargo.github.io/cargo/Home.html
+	//https://github.com/bmuschko/gradle-cargo-plugin/blob/master/README.md
 	id "com.bmuschko.cargo" version "2.2.3"
 	id "com.bmuschko.tomcat" version "2.2.5"
 }
@@ -10,10 +12,12 @@ apply plugin: 'idea'
 
 description = 'minimessage. Application like Twitter'
 
-ext.gradleVersion = '3.4.1'
-ext.javaVersion = '1.8.0_73'
-ext.projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.0.0.SNAPSHOT']
-
+ext{
+	gradleVersion = '3.4.1'
+	javaVersion = '1.8.0_73'
+	projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.0.0.SNAPSHOT']
+	MySQLVersion = '6.0.6'
+}
 version = projectIds.version
 
 
@@ -82,6 +86,15 @@ project('minimessage-model'){
 project('minimessage-dao'){
 	version = '1.0.0.SNAPSHOT'
 	description = 'Databases access object classes'
+
+	dependencies {
+		compile project(':minimessage-model')
+		compile "org.springframework:spring-jdbc:$springVersion"
+		compile group: 'mysql', name: 'mysql-connector-java', version: "$MySQLVersion"
+		compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
+		compile "org.hibernate:hibernate-core:3.3.2.GA"
+		compile "org.hibernate:hibernate-annotations:3.4.0.GA"
+	}
 }
 
 project('minimessage-service'){
@@ -107,7 +120,23 @@ project('minimessage-web') {
 		// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 		compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 
+		ext.cargoVersion = '1.6.2'
+		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+				"org.codehaus.cargo:cargo-ant:$cargoVersion"
+
 	}
+
+	cargo{
+		containerId = 'tomcat9x'
+		port = 8080
+
+		remote{
+			hostname = 'localhost'
+			username = 'admin'
+			password = 'admin'
+		}
+	}
+
 }
 
 

@@ -22,3 +22,11 @@
 
 # Gradle build
 **/build
+
+
+#JDBC properties
+**/jdbc.properties
+
+
+#My public static void main  class for testing
+**/Go.java
