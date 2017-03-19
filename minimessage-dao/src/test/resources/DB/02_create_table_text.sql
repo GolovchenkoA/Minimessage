@@ -1,0 +1,5 @@
+CREATE TABLE `text` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `text` varchar(100) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;

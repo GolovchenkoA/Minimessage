@@ -1,0 +1,43 @@
+package ua.golovchenko.artem.dao;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ua.golovchenko.artem.minimessage.model.Text;
+import ua.golovchenko.artem.minimessage.model.TextImpl;
+
+/**
+ * Created by головченко on 19.03.2017.
+ */
+
+@Repository
+@Transactional(propagation= Propagation.REQUIRED)
+public class HibernateTextDAO implements TextDAO {
+
+    private SessionFactory sessionFactory;
+
+
+    @Autowired
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    private Session currentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+
+    @Override
+    public void add(Text text) {
+        currentSession().save(text);
+    }
+
+    @Override
+    public Text get(Long textId) {
+
+        return (Text)currentSession().get(TextImpl.class,textId);
+    }
+}

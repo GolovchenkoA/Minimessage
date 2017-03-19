@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.Compile
+
 //Root project configuration
 
 plugins {
@@ -27,6 +29,12 @@ allprojects{
 
 	repositories {
 		mavenCentral()
+	}
+
+	gradle.projectsEvaluated {
+		tasks.withType(Compile) {
+			options.compilerArgs << "-Xlint:unchecked"
+		}
 	}
 }
 
@@ -81,6 +89,12 @@ subprojects{
 project('minimessage-model'){
 	version = '1.0.0.SNAPSHOT'
 	description = 'Domain models'
+
+dependencies{
+	compile "javax.persistence:persistence-api:1.0"
+	compile "javax.validation:validation-api:1.0.0.GA"
+}
+
 }
 
 project('minimessage-dao'){
@@ -94,6 +108,8 @@ project('minimessage-dao'){
 		compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
 		compile "org.hibernate:hibernate-core:3.3.2.GA"
 		compile "org.hibernate:hibernate-annotations:3.4.0.GA"
+		compile "org.slf4j:slf4j-api:1.6.1"
+		compile "javassist:javassist:3.9.0.GA"
 	}
 }
 

@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,15 @@ import java.util.List;
 
 /**
  * Created by головченко on 17.03.2017.
+ *
+ * This class created just for testing configuration spring and hibernate
+ *
+ * @author Golovchenko Artem
  */
 
 @Repository
 public class HibernateMessageDAO implements MessageDAO{
 
-    @Autowired
     private SessionFactory sessionFactory;
 
 /*    @Autowired
@@ -39,22 +43,24 @@ public class HibernateMessageDAO implements MessageDAO{
 
     @Override
     public Message get(Long id) {
-        return null;
+        return (Message) currentSession().get(Message.class, id);
     }
 
     @Override
-    public void delete(Message message) {
-
+    public void delete(Long id) {
+        currentSession().delete(get(id));
     }
 
     @Override
     public void update(Message message) {
-
+        currentSession().save(message);
     }
 
     @Override
     public List<Message> findAll() {
-        return null;
+        Criteria criteria = currentSession().createCriteria(Message.class);
+        List<Message> messages = criteria.list();
+        return messages;
     }
 
     @Override
