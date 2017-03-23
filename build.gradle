@@ -93,6 +93,10 @@ project('minimessage-model'){
 dependencies{
 	compile "javax.persistence:persistence-api:1.0"
 	compile "javax.validation:validation-api:1.0.0.GA"
+
+	// Add for testing Model Classes
+	compile "org.springframework:spring-context:$springVersion"
+
 }
 
 }

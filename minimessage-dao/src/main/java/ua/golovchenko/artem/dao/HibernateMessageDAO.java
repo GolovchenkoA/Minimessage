@@ -38,7 +38,7 @@ public class HibernateMessageDAO implements MessageDAO{
 
     @Override
     public void add(Message message) {
-        currentSession().save(message);
+        currentSession().saveOrUpdate(message);
     }
 
     @Override
@@ -52,9 +52,7 @@ public class HibernateMessageDAO implements MessageDAO{
     }
 
     @Override
-    public void update(Message message) {
-        currentSession().save(message);
-    }
+    public void update(Message message) {currentSession().saveOrUpdate(message);}
 
     @Override
     public List<Message> findAll() {

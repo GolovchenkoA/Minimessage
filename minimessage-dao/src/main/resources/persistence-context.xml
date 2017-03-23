@@ -58,7 +58,6 @@
               <props>
                      <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                      <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-                     <!--<prop key="hbm2ddl.auto">update</prop>-->
               </props>
        </property>
 </bean>
