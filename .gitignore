@@ -26,6 +26,7 @@
 
 #JDBC properties
 **/jdbc.properties
+**/jdbc-dev.properties
 
 
 #My public static void main  class for testing
