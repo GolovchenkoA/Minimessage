@@ -32,7 +32,7 @@ public class HibernateTextDAO implements TextDAO {
 
     @Override
     public void add(Text text) {
-        currentSession().save(text);
+        currentSession().saveOrUpdate(text);
     }
 
     @Override
@@ -40,4 +40,5 @@ public class HibernateTextDAO implements TextDAO {
 
         return (Text)currentSession().get(TextImpl.class,textId);
     }
+
 }

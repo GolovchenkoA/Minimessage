@@ -1,6 +1,7 @@
 package ua.golovchenko.artem.minimessage.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="USER_ACCOUNTS")
-public class UserAccount {
+public class UserAccount implements Serializable {
 
     private Long id;
     private String username;
