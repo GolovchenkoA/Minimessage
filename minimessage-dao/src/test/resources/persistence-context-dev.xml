@@ -14,16 +14,15 @@
 <!--Package with annotations -->
 <context:annotation-config />
    <context:component-scan base-package="ua.golovchenko.artem"/>
-
-
+       
 <!--Package with DAO classes -->
 <context:component-scan
-        base-package="ua.golovchenko.artem.dao" />
-
-<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+        base-package="ua.golovchenko.artem.minimessage.dao" />
 
 <context:property-placeholder location="jdbc-dev.properties"/>
 
+
+<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 
 <!--Datasource classic -->
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -58,15 +57,15 @@
 
 
  <!--DAO Beans  -->
-<bean id="hibernateMessageDAO" class="ua.golovchenko.artem.dao.HibernateMessageDAO">
+<bean id="hibernateMessageDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateMessageDAO">
        <property name="sessionFactory" ref="sessionFactory" />
 </bean>
 
-<bean id="HibernateTextDAO" class="ua.golovchenko.artem.dao.HibernateTextDAO">
+<bean id="HibernateTextDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateTextDAO">
        <property name="sessionFactory" ref="sessionFactory" />
 </bean>
 
-<bean id="HibernateUserAccountDAO" class="ua.golovchenko.artem.dao.HibernateUserAccountDAO">
+<bean id="HibernateUserAccountDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateUserAccountDAO">
        <property name="sessionFactory" ref="sessionFactory" />
 </bean>
 

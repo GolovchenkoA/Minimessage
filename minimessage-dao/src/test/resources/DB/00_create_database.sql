@@ -1,1 +1,1 @@
-CREATE DATABASE minimessages;
+CREATE DATABASE minimessage;

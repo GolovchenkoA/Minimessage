@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.dao;
+package ua.golovchenko.artem.minimessage.dao;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
