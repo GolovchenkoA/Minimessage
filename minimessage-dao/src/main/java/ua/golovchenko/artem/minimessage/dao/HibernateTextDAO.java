@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.minimessage.dao;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.model.Text;
 import ua.golovchenko.artem.minimessage.model.TextImpl;
+import ua.golovchenko.artem.minimessage.model.UserAccount;
+
+import java.util.List;
 
 /**
  * Created by головченко on 19.03.2017.
@@ -41,4 +45,10 @@ public class HibernateTextDAO implements TextDAO {
         return (Text)currentSession().get(TextImpl.class,textId);
     }
 
+    @Override
+    public List<Text> findAll() {
+        Criteria criteria = currentSession().createCriteria(UserAccount.class);
+        List<Text> texts = criteria.list();
+        return texts;
+    }
 }

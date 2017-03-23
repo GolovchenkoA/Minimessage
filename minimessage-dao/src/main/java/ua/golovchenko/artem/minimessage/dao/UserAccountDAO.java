@@ -12,5 +12,5 @@ public interface UserAccountDAO {
     UserAccount get(Long userId);
     void delete(Long id);
     void update(UserAccount user);
-    List<UserAccount> findAll();
+     List<UserAccount> findAll();
 }

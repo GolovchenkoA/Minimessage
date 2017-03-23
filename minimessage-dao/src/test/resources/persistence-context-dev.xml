@@ -14,7 +14,7 @@
 <!--Package with annotations -->
 <context:annotation-config />
    <context:component-scan base-package="ua.golovchenko.artem"/>
-       
+
 <!--Package with DAO classes -->
 <context:component-scan
         base-package="ua.golovchenko.artem.minimessage.dao" />
@@ -42,7 +42,9 @@
               <props>
                      <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                      <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-<!--                     <prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                     <prop key="hibernate.hbm2ddl.auto">update</prop>
+<!--                     <prop key="hibernate.show_sql">true</prop>
+                     <prop key="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>-->
               </props>
        </property>
 </bean>
@@ -61,13 +63,13 @@
        <property name="sessionFactory" ref="sessionFactory" />
 </bean>
 
-<bean id="HibernateTextDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateTextDAO">
+<!--<bean id="HibernateTextDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateTextDAO">
        <property name="sessionFactory" ref="sessionFactory" />
-</bean>
+</bean>-->
 
-<bean id="HibernateUserAccountDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateUserAccountDAO">
+<!--<bean id="hibernateUserAccountDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateUserAccountDAO">
        <property name="sessionFactory" ref="sessionFactory" />
-</bean>
+</bean>-->
 
 
 </beans>

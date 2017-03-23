@@ -1,31 +1,27 @@
 package ua.golovchenko.artem.minimessage.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by головченко on 15.03.2017.
  *
  */
 
-@Component
+//@Component
 @Entity
-@Table(name="USER_ACCOUNTS", schema = "messages")
+@Table(name="USER_ACCOUNTS")
 public class UserAccount implements Serializable {
 
     private Long id;
     private String username;
     private String password;
-    private Set<Message> messages = new HashSet();
+    //private Set<Message> messages = new HashSet();
     private Date created;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column( name = "id", unique = true, nullable = false)
     public Long getId() {
         return id;
@@ -39,7 +35,7 @@ public class UserAccount implements Serializable {
     /**
      * @return user login
      */
-    @Column( name = "id", unique = true, nullable = false, length = 25)
+    @Column( name = "username", unique = true, nullable = false, length = 25)
     public String getUsername() {
         return username;
     }
@@ -60,8 +56,10 @@ public class UserAccount implements Serializable {
         this.password = password;
     }
 
+/*
     @OneToMany
     @JoinColumn(name="ID")
+    @Column(unique = false, nullable = true)
     public Set<Message> getMessages() {
         return messages;
     }
@@ -69,8 +67,10 @@ public class UserAccount implements Serializable {
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
     }
+*/
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", unique = false, nullable = false)
     public Date getCreated() {
         return created;
     }
@@ -97,5 +97,14 @@ public class UserAccount implements Serializable {
         int result = username.hashCode();
         result = 31 * result + password.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", created=" + created +
+                '}';
     }
 }

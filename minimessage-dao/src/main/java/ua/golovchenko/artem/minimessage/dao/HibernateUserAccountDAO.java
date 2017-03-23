@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 
 import java.util.List;
@@ -14,15 +16,11 @@ import java.util.List;
  */
 
 @Repository
+@Transactional(propagation= Propagation.REQUIRED)
 public class HibernateUserAccountDAO implements UserAccountDAO {
 
     private SessionFactory sessionFactory;
 
-
-
-/*    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }*/
 
     @Autowired
     public void setSessionFactory(SessionFactory sessionFactory) {
@@ -39,6 +37,7 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     }
 
     @Override
+    @Transactional(propagation= Propagation.SUPPORTS)
     public UserAccount get(Long id) {
         return (UserAccount) currentSession().get(UserAccount.class,id);
     }

@@ -14,13 +14,12 @@
 <!--Package with annotations -->
 <context:annotation-config />
    <context:component-scan base-package="ua.golovchenko.artem"/>
-    
+
 <!--Package with DAO classes -->
 <context:component-scan
         base-package="ua.golovchenko.artem.minimessage.dao" />
 
 <context:property-placeholder location="jdbc.properties"/>
-
 
 
 <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
