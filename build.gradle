@@ -83,6 +83,52 @@ subprojects{
 
 	build.dependsOn(jacocoTestReport)
 	//test.finalizedBy(jacocoTestReport)
+
+/* Addition settings for testing in footer
+	Example
+	--------------------------------------------------------------------
+	|  Results: SUCCESS (1 tests, 1 successes, 0 failures, 0 skipped)  |
+	--------------------------------------------------------------------
+	*/
+	tasks.withType(Test) {
+		group ='testing'
+		description= 'show addition information after all tests'
+
+		testLogging {
+			// set options for log level LIFECYCLE
+			events "passed", "skipped", "failed", "standardOut"
+			showExceptions true
+			exceptionFormat "full"
+			showCauses true
+			showStackTraces true
+			showStandardStreams = true
+
+			// set options for log level DEBUG and INFO
+			debug {
+				events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+				exceptionFormat "full"
+			}
+			info.events = debug.events
+			info.exceptionFormat = debug.exceptionFormat
+
+			afterSuite { desc, result ->
+				if (!desc.parent) { // will match the outermost suite
+					def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+					def startItem = '|  ', endItem = '  |'
+					def repeatLength = startItem.length() + output.length() + endItem.length()
+					println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+				}
+			}
+
+
+		}
+	}
+
+
+
+
+
+
 }
 
 
@@ -112,8 +158,16 @@ project('minimessage-dao'){
 		compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
 		compile "org.hibernate:hibernate-core:3.3.2.GA"
 		compile "org.hibernate:hibernate-annotations:3.4.0.GA"
-		compile "org.slf4j:slf4j-api:1.6.1"
+		//compile "org.slf4j:slf4j-api:1.6.1"
+		compile "org.slf4j:slf4j-api:1.5.8"
+		compile "org.slf4j:slf4j-nop:1.5.8"
 		compile "javassist:javassist:3.9.0.GA"
+		 /* For Testing DAO  */
+		//testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8'
+		testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
+		testCompile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
+
 	}
 }
 
@@ -163,3 +217,5 @@ project('minimessage-web') {
 task wrapper(type: Wrapper) {
 	gradleVersion = '3.4.1'
 }
+
+

@@ -1,5 +1,7 @@
 package ua.golovchenko.artem.minimessage.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
  *
  */
 
-//@Component
+@Component
 @Entity
 @Table(name="USER_ACCOUNTS")
 public class UserAccount implements Serializable {

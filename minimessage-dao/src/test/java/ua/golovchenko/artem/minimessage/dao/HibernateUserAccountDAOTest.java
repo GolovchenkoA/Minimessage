@@ -4,31 +4,32 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
+
 
 import java.util.Date;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
 
-//@RunWith(MockitoJUnitRunner.class)
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:persistence-context-dev.xml"})
 public class HibernateUserAccountDAOTest {
 
     @Autowired
     private UserAccountDAO accountDAO;
-    //private SessionFactory sessionFactory;
 
-/*    @Autowired
-    UserAccount account;*/
+    @Autowired
+    UserAccount account;
 
     @Before
     public void setUp(){
-        accountDAO = new HibernateUserAccountDAO();
-
-        UserAccount account = new UserAccount();
         account.setUsername("UserLogin");
         account.setPassword("Pa$$W0Rd");
         account.setCreated(new Date());
@@ -36,9 +37,13 @@ public class HibernateUserAccountDAOTest {
 
 
     @Test
-    public void testAdd() throws Exception {
-        //List<UserAccount> accounts = new ArrayList<>();
-            assertNull(accountDAO.findAll());
+    @Transactional
+    @Rollback(true)
+    public void testAddAccountThenGetAccount() throws Exception {
+        accountDAO.add(account);
+
+        assertThat(accountDAO.findAll().size(),is(1));
+        assertEquals(account,accountDAO.get(0L));
     }
 
 /*    @Test

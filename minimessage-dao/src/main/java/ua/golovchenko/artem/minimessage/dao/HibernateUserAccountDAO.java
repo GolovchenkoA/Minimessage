@@ -37,7 +37,7 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     }
 
     @Override
-    @Transactional(propagation= Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public UserAccount get(Long id) {
         return (UserAccount) currentSession().get(UserAccount.class,id);
     }
@@ -54,6 +54,7 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     }
 
     @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public List<UserAccount> findAll() {
         Criteria criteria = currentSession().createCriteria(UserAccount.class);
         List<UserAccount> accounts = criteria.list();

@@ -1,0 +1,6 @@
+CREATE TABLE USER_ACCOUNTS (
+  ID INTEGER IDENTITY PRIMARY KEY,
+  username varchar(25) NOT NULL,
+  password varchar(25) NOT NULL,
+  created DATETIME NOT NULL
+);

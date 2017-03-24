@@ -81,9 +81,9 @@
        <property name="sessionFactory" ref="sessionFactory" />
 </bean>
 
-<bean id="HibernateUserAccountDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateUserAccountDAO">
+<!--<bean id="HibernateUserAccountDAO" class="ua.golovchenko.artem.minimessage.dao.HibernateUserAccountDAO">
        <property name="sessionFactory" ref="sessionFactory" />
-</bean>
+</bean>-->
 
 
 </beans>

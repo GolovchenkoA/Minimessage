@@ -26,7 +26,6 @@ public class UserAccountTest {
 
         assertNotNull(userAccount.getId());
         assertEquals(Long.valueOf(10L),userAccount.getId());
-
     }
 
 
@@ -62,7 +61,6 @@ public class UserAccountTest {
 
         assertNotNull(userAccount.getCreated());
         assertEquals(accountCreated, userAccount.getCreated());
-
     }
 
 }
