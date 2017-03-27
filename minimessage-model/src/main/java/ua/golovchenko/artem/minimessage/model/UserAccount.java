@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by головченко on 15.03.2017.
@@ -19,7 +21,7 @@ public class UserAccount implements Serializable {
     private Long id;
     private String username;
     private String password;
-    //private Set<Message> messages = new HashSet();
+    private Set<Message> messages = new HashSet();
     private Date created;
 
     @Id
@@ -81,6 +83,14 @@ public class UserAccount implements Serializable {
         this.created = created;
     }
 
+    @OneToMany
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
 
     @Override
     public boolean equals(Object o) {

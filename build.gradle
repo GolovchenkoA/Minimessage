@@ -36,6 +36,7 @@ allprojects{
 			options.compilerArgs << "-Xlint:unchecked"
 		}
 	}
+
 }
 
 
@@ -81,8 +82,26 @@ subprojects{
 		//reportsDir = file("$buildDir/customJacocoReportDir")
 	}
 
+/*	test {
+		jacoco {
+			description = "exclude class"
+			excludes = ['Go']
+		}
+	}*/
+
+	jacocoTestReport {
+
+		afterEvaluate {
+			classDirectories = files(classDirectories.files.collect {
+				fileTree(dir: it, exclude: '**/Go.class')
+			})
+		}
+	}
+
+	jacocoTestReport.dependsOn(test)
+	test.finalizedBy(project.tasks.jacocoTestReport)
 	build.dependsOn(jacocoTestReport)
-	//test.finalizedBy(jacocoTestReport)
+
 
 /* Addition settings for testing in footer
 	Example
@@ -172,6 +191,7 @@ project('minimessage-dao'){
 		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
 
 	}
+
 }
 
 project('minimessage-service'){

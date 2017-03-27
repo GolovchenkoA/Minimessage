@@ -1,5 +1,7 @@
 package ua.golovchenko.artem.minimessage.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -10,6 +12,7 @@ import java.io.Serializable;
  * Created by головченко on 15.03.2017.
  */
 
+@Component
 @Entity
 @Table(name="MESSAGES")
 public class Message implements Serializable {
@@ -36,6 +39,7 @@ public class Message implements Serializable {
     }
 
     @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     public UserAccount getAccount() {
         return account;
     }
@@ -59,5 +63,35 @@ public class Message implements Serializable {
 
     public void setCreated(java.util.Date created) {
         this.created = created;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", account=" + account +
+                ", text='" + text + '\'' +
+                ", created=" + created +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (!account.equals(message.account)) return false;
+        if (!text.equals(message.text)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = account.hashCode();
+        result = 31 * result + text.hashCode();
+        return result;
     }
 }

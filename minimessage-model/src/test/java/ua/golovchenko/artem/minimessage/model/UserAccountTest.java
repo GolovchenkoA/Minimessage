@@ -7,9 +7,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,10 +49,26 @@ public class UserAccountTest {
     }
 
 
-/*    @Test
+    @Test
     public void testSetMessagesThenGetMessages() throws Exception {
 
-    }*/
+        Set<Message> allMessages = new HashSet<>();
+
+        String message1_Text = "Message 1";
+        Message message = new Message(userAccount,message1_Text);
+        allMessages.add(message);
+        userAccount.setMessages(allMessages);
+
+        Set<Message>allUserMessages = userAccount.getMessages();
+
+        assertNotNull(allUserMessages);
+        System.out.println("All messages: ");
+        for(Message m : allMessages){
+            System.out.println(m);
+        }
+        assertThat(allUserMessages.size(),is(1));
+        assertTrue(allMessages.contains(message));
+    }
 
 
     @Test
