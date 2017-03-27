@@ -16,6 +16,7 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,6 +37,13 @@ public class HibernateUserAccountDAOTest {
     }
 
 
+
+    @Test
+    public void userAccountMustBeEmpty(){
+        assertTrue(accountDAO.findAll().isEmpty());
+    }
+
+
     @Test
     @Transactional
     @Rollback(true)
@@ -43,7 +51,7 @@ public class HibernateUserAccountDAOTest {
         accountDAO.add(account);
 
         assertThat(accountDAO.findAll().size(),is(1));
-        assertEquals(account,accountDAO.get(0L));
+        assertEquals(account,accountDAO.get(1L));
     }
 
 /*    @Test

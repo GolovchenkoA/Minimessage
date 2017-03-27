@@ -125,9 +125,12 @@ subprojects{
 	}
 
 
-
-
-
+/*	tasks.withType(Test) {
+		group ='testing'
+		description= 'https://discuss.gradle.org/t/jacoco-multiproject-build-cant-load-jacocoagent/11540/2'
+		systemProperties = System.properties
+		systemProperties['user.dir'] = workingDir
+	}*/
 
 }
 

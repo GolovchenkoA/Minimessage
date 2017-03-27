@@ -24,7 +24,7 @@ public class UserAccount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column( name = "id", unique = true, nullable = false)
+    @Column
     public Long getId() {
         return id;
     }
@@ -80,6 +80,7 @@ public class UserAccount implements Serializable {
     public void setCreated(Date created) {
         this.created = created;
     }
+
 
     @Override
     public boolean equals(Object o) {
