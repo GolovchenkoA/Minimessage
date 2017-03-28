@@ -60,19 +60,6 @@ public class UserAccount implements Serializable {
         this.password = password;
     }
 
-/*
-    @OneToMany
-    @JoinColumn(name="ID")
-    @Column(unique = false, nullable = true)
-    public Set<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Set<Message> messages) {
-        this.messages = messages;
-    }
-*/
-
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", unique = false, nullable = false)
     public Date getCreated() {
@@ -84,7 +71,7 @@ public class UserAccount implements Serializable {
     }
 
     @OneToMany(mappedBy = "account") //, cascade = CascadeType.ALL)
-    @JoinColumn(name="id")
+    //@JoinColumn(name="id")
     public Set<Message> getMessages() {
         return messages;
     }

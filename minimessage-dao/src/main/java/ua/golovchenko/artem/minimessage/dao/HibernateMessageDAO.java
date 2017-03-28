@@ -52,7 +52,7 @@ public class HibernateMessageDAO implements MessageDAO{
     }
 
     @Override
-    public void update(Message message) {currentSession().saveOrUpdate(message);}
+    public void update(Message message) {currentSession().update(message);}
 
     @Override
     public List<Message> findAll() {

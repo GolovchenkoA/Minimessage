@@ -40,7 +40,7 @@ public class Message implements Serializable {
     }
 
     @ManyToOne//(cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id")
+    //@JoinColumn(name = "account_id")
     public UserAccount getAccount() {
         return account;
     }
