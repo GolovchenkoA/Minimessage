@@ -22,8 +22,8 @@
        <!--DataSource  In-Memory DB       -->
        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
               <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-              <property name="url" value="jdbc:hsqldb:hsql://localhost/xdb"/><!--Local instance   -->
-              <!--<property name="url" value="jdbc:hsqldb:mem:."/>--> <!--in-memory instance   -->
+              <!--<property name="url" value="jdbc:hsqldb:hsql://localhost/xdb"/>--><!--Local instance   -->
+              <property name="url" value="jdbc:hsqldb:mem:."/> <!--in-memory instance   -->
               <property name="username" value="sa"/>
               <property name="password" value=""/>
 <!--              <property name="initialSize" value="10"/>

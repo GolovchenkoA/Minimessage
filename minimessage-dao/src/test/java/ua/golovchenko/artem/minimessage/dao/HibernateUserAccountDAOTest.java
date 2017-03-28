@@ -17,8 +17,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:persistence-context-dev.xml"})
@@ -28,15 +27,21 @@ public class HibernateUserAccountDAOTest {
     private UserAccountDAO accountDAO;
 
     @Autowired
-    DataSource ds;
+    private DataSource ds;
 
     @Autowired
-    UserAccount account;
+    private UserAccount account;
+    private String accountName;
+    private String accountPassword;
+
+
 
     @Before
     public void setUp(){
-        account.setUsername("UserLogin5");
-        account.setPassword("Pa$$W0Rd");
+        accountName = "UserLogin5";
+        accountPassword = "Pa$$W0Rd";
+        account.setUsername(accountName);
+        account.setPassword(accountPassword);
         account.setCreated(new Date());
     }
 
@@ -58,7 +63,8 @@ public class HibernateUserAccountDAOTest {
     }
 
 
-/*    @Test
+/*
+    @Test
     @Transactional
     @Rollback(true)
     public void testAddAccountThenGetAccount() throws Exception {
@@ -67,15 +73,14 @@ public class HibernateUserAccountDAOTest {
 
         assertThat(accountDAO.findAll().size(),is(1));
         assertEquals(account,accountDAO.get(1L));
-    }*/
+    }
+*/
 
 
     @Test
     @Transactional
     @Rollback(true)
     public void testDelete() throws Exception {
-
-        assertTrue(accountDAO.findAll().isEmpty());
 
         accountDAO.add(account);
         assertTrue(accountDAO.findAll().contains(account));
@@ -84,16 +89,24 @@ public class HibernateUserAccountDAOTest {
         assertFalse(accountDAO.findAll().contains(account));
     }
 
-/*      @Test
+      @Test
+      @Transactional
+      @Rollback(true)
     public void testUpdate() throws Exception {
+
+          accountDAO.add(account);
+          account.setPassword("NewPassword");
+          accountDAO.update(account);
+
+          assertEquals(account,accountDAO.get(account.getId()));
     }
-*/
+
+
+
     @Test
     @Transactional
     @Rollback(true)
     public void testFindAll() throws Exception {
-
-        assertTrue(accountDAO.findAll().isEmpty());
 
         UserAccount firstAccount = new UserAccount();
         firstAccount.setUsername("User 1");

@@ -30,6 +30,7 @@ public class Message implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -38,8 +39,8 @@ public class Message implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne//(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     public UserAccount getAccount() {
         return account;
     }
@@ -83,6 +84,8 @@ public class Message implements Serializable {
         Message message = (Message) o;
 
         if (!account.equals(message.account)) return false;
+        if (!created.equals(message.created)) return false;
+        if (id != null ? !id.equals(message.id) : message.id != null) return false;
         if (!text.equals(message.text)) return false;
 
         return true;
@@ -90,8 +93,10 @@ public class Message implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = account.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + account.hashCode();
         result = 31 * result + text.hashCode();
+        result = 31 * result + created.hashCode();
         return result;
     }
 }

@@ -26,7 +26,7 @@ public class UserAccount implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "id")
     public Long getId() {
         return id;
     }
@@ -83,7 +83,8 @@ public class UserAccount implements Serializable {
         this.created = created;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "account") //, cascade = CascadeType.ALL)
+    @JoinColumn(name="id")
     public Set<Message> getMessages() {
         return messages;
     }

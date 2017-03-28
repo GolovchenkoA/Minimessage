@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,17 +38,26 @@ public class HibernateMessageDAOTest {
     @Autowired
     //@InjectMocks
     private Message message;
+    private String messageText;
 
     //@Mock
     private UserAccount userAccount;
 
+
     @Before
     public void setUp() throws Exception {
+        // Init message
+        message.setAccount(getUserAccount());
+        messageText =  "MessageText";
+        message.setText(messageText);
+        message.setCreated(new Date());
 /*        initMocks(this);
         when(message.getAccount()).thenReturn(getUserAccount());*/
-        accountDAO.add(getUserAccount());
 
-        //message.setText("Message Text 1");
+        //Init User Account and Add to Database. All messages have foreign key to account id
+        userAccount = getUserAccount();
+        accountDAO.add(userAccount);
+
 
     }
 
@@ -60,14 +71,29 @@ public class HibernateMessageDAOTest {
         }
     }*/
 
-    /*    @Test
+
+    @Test
+    @Transactional
+    public void allMessagesMustBeEmpty() throws Exception{
+
+        assertTrue(messageDAO.findAll().isEmpty());
+    }
+
+        @Test
+        @Transactional
+        @Rollback(true)
     public void testAdd() throws Exception {
+
+
         messageDAO.add(message);
         List<Message> allMessages = messageDAO.findAll();
 
         assertNotNull(allMessages);
-        assertEquals(message, allMessages.get(1));
-    }*/
+        assertEquals(allMessages.size(),1);
+        assertEquals(message, allMessages.get(0));
+        assertEquals(messageText, messageDAO.get(1L).getText());
+        assertEquals(userAccount,  messageDAO.get(1L).getAccount());
+    }
 /*
     @Test
     public void testGet() throws Exception {
@@ -91,8 +117,11 @@ public class HibernateMessageDAOTest {
         String text2 = "Message Text 2";
 
         Message message1 = new Message(getUserAccount(),text1);
+        message1.setCreated(new Date());
         Message message2 = new Message(getUserAccount(),text2);
+        message2.setCreated(new Date());
 
+        //assertFalse(message1.equals(message2));
         messageDAO.add(message1);
         messageDAO.add(message2);
 
