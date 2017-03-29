@@ -26,6 +26,14 @@ public class UserAccount implements Serializable {
     private Set<Message> messages = new HashSet();
     private Date created;
 
+    public UserAccount(){}
+
+    public UserAccount(String username, String password, Date created) {
+        this.username = username;
+        this.password = password;
+        this.created = created;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

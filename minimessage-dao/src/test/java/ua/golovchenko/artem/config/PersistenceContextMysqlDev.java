@@ -16,6 +16,8 @@ import java.util.Properties;
 
 /**
  * Created by головченко on 29.03.2017.
+ *
+ * This is Spring Configuration File for JUnit Tests (Database Type: MySQL)
  */
 
 @Configuration

@@ -78,7 +78,10 @@ public class HibernateUserAccountDAOTest {
     @Transactional
     @Rollback(true)
     public void testAddAccountThenGetAccount() throws Exception {
-        // Warning: In-memory hsqldb can remember user id between tests and this test FAIL
+
+        for(UserAccount u: accountDAO.findAll()){
+            System.out.println(u);
+        }
 
         assertTrue(accountDAO.findAll().isEmpty());
 

@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.minimessage.model;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,14 @@ public class UserAccountTest {
     UserAccount userAccount;
 
 
+    @Before
+    public void setUp(){
+        userAccount = new UserAccount();
+    }
+
+
     @Test
-    public void testSetIdThenGetId() throws Exception {
+    public void testSetIdThenGetIdMustBeEquals() throws Exception {
         userAccount.setId(10L);
 
         assertNotNull(userAccount.getId());
@@ -32,7 +39,7 @@ public class UserAccountTest {
 
 
     @Test
-    public void testSetUsernameThenGetUsername() throws Exception {
+    public void testSetUsernameThenGetUsernameMustBeEquals() throws Exception {
         userAccount.setUsername("UserLogin");
 
         assertNotNull(userAccount.getUsername());
@@ -41,7 +48,7 @@ public class UserAccountTest {
 
 
     @Test
-    public void testSetPasswordThenGetPassword() throws Exception {
+    public void testSetPasswordThenGetPasswordMustBeEquals() throws Exception {
         userAccount.setPassword("UserPa$$W0rD");
 
         assertNotNull(userAccount.getPassword());
@@ -50,24 +57,30 @@ public class UserAccountTest {
 
 
     @Test
-    public void testSetMessagesThenGetMessages() throws Exception {
+    public void testSetMessagesThenGetMessagesMustBeEquals() throws Exception {
 
-        Set<Message> allMessages = new HashSet<>();
+        userAccount.setUsername("AccountUserName");
+        userAccount.setPassword("AccountUserPassword");
+        userAccount.setCreated(new Date());
 
+        //create messages
+        Set<Message> userMessages = new HashSet<>();
         String message1_Text = "Message 1";
-        Message message = new Message(userAccount,message1_Text);
-        allMessages.add(message);
-        userAccount.setMessages(allMessages);
+        Message message = new Message(userAccount,message1_Text,new Date());
+
+        // add message to messages
+        userMessages.add(message);
+        userAccount.setMessages(userMessages);
 
         Set<Message>allUserMessages = userAccount.getMessages();
 
         assertNotNull(allUserMessages);
-        System.out.println("All messages: ");
-        for(Message m : allMessages){
+/*        System.out.println("All messages: ");
+        for(Message m : userMessages){
             System.out.println(m);
-        }
+        }*/
         assertThat(allUserMessages.size(),is(1));
-        assertTrue(allMessages.contains(message));
+        assertTrue(userMessages.contains(message));
     }
 
 

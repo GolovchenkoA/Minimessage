@@ -18,7 +18,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -47,23 +49,24 @@ public class HibernateMessageDAOTest {
 
     @Before
     public void setUp() throws Exception {
-
-        // Init message
-        message.setAccount(getUserAccount());
-        messageText =  "MessageText";
-        message.setText(messageText);
-        message.setCreated(new Date());
-/*        initMocks(this);
-        when(message.getAccount()).thenReturn(getUserAccount());*/
-
         //Init User Account and Add to Database. All messages have foreign key to account id
         userAccount = getUserAccount();
         accountDAO.add(userAccount);
+
+        // Init message
+        message.setAccount(userAccount);
+        messageText =  "MessageText";
+        message.setText(messageText);
+        message.setCreated(new Date());
 
     }
 
     @After
     public void tearDown() throws Exception {
+        //Clead DB after tests
+        // Delete account that was created in @Before method (setUp())
+        accountDAO.delete(userAccount.getId());
+
         // Clear DB after tests
 /*        try {
             clearDatabase();
@@ -73,82 +76,110 @@ public class HibernateMessageDAOTest {
     }
 
 
-    @Ignore
-    @Test
-    public void allMessagesMustBeEmpty() throws Exception{
-        assertTrue(messageDAO.findAll().isEmpty());
-    }
 
     @Test
     @Transactional
     @Rollback(true)
-    public void testAdd() throws Exception {
+    public void testAddMessageThenGetMessageMustBeEquals() throws Exception {
 
+        assertTrue(messageDAO.findAll().isEmpty());
 
         messageDAO.add(message);
         List<Message> allMessages = messageDAO.findAll();
 
         assertNotNull(allMessages);
         assertEquals(allMessages.size(),1);
-        assertEquals(message, allMessages.get(0));
-        assertEquals(messageText, messageDAO.get(1L).getText());
-        assertEquals(userAccount,  messageDAO.get(1L).getAccount());
+        assertEquals(message, messageDAO.get(message.getId()));
+        assertEquals(messageText, messageDAO.findAll().get(0).getText());
+        assertEquals(userAccount,  messageDAO.findAll().get(0).getAccount());
     }
-/*
 
+
+    @Transactional
+    @Rollback(true)
     @Test
     public void testDelete() throws Exception {
 
+        messageDAO.add(message);
+        assertThat("Message count in DB must be 1",messageDAO.findAll().size(), is(1));
+
+        messageDAO.delete(message.getId());
+        assertThat("Number of messages in the DB must be 0",messageDAO.findAll().size(), is(0));
     }
 
     @Test
+    @Transactional
+    @Rollback(true)
     public void testUpdate() throws Exception {
+        messageDAO.add(message);
+        String newText = "New Message Text";
 
-    }*/
+        message.setText(newText);
+        messageDAO.update(message);
 
-    @Ignore
+        assertEquals("Texts must be equals",newText,messageDAO.get(message.getId()).getText());
+    }
+
+
     @Test
     @Transactional
     @Rollback(true)
-    public void testFindAll() throws Exception {
+    public void testFindAllMessagesAllUsers() throws Exception {
         // Init messages
         String text1 = "Message Text 1";
         String text2 = "Message Text 2";
 
-        Message message1 = new Message(getUserAccount(),text1);
-        message1.setAccount(getUserAccount());
-        message1.setCreated(new Date());
-        Message message2 = new Message(getUserAccount(),text2);
-        message2.setAccount(getUserAccount());
-        message2.setCreated(new Date());
+        Message message1 = new Message(userAccount,text1, new Date());
+        Message message2 = new Message(userAccount,text2, new Date());
 
-        System.out.println("before: " + accountDAO.findAll());
-        System.out.println("before: " + messageDAO.findAll());
-
-        assertFalse(message.equals(message1));
-        assertFalse(message1.equals(message2));
         messageDAO.add(message1);
         messageDAO.add(message2);
 
-        System.out.println("after: " + accountDAO.findAll());
-        System.out.println("after: " + messageDAO.findAll());
+
         // Assertions
         assertNotNull(messageDAO.findAll());
-        assertThat(messageDAO.findAll().size(), is(2));
+        assertThat("Number of messages in the DB must be 2", messageDAO.findAll().size(), is(2));
         assertTrue(messageDAO.findAll().contains(message1));
         assertTrue(messageDAO.findAll().contains(message2));
     }
 
-/*    @Test
-    public void testFindAllbyUserId() throws Exception {
 
-    }*/
+    @Ignore // method messageDAO.findAllbyUserId is not implemented
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testFindAllMessagesbyUserId() throws Exception {
+
+        String text1 = "Message Text 1";
+        String text2 = "Message Text 2";
+
+        Message message1 = new Message(userAccount,text1, new Date());
+        Message message2 = new Message(userAccount,text2, new Date());
+
+        Set<Message> userMessages = new HashSet<>(2);
+        userMessages.add(message);
+        userMessages.add(message1);
+        userMessages.add(message2);
+
+
+        messageDAO.add(message1);
+        messageDAO.add(message2);
+
+
+        // Assertions
+        Set<Message> messagesInDB = new HashSet<Message>(messageDAO.findAllbyUserId(userAccount.getId()));
+        assertNotNull(messagesInDB);
+        assertThat("Number of messages in the DB must be 2",messagesInDB, is(2));
+        assertEquals(userMessages,messagesInDB);
+
+    }
+
 
     private UserAccount getUserAccount(){
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername("UserName");
         userAccount.setPassword("UserPa$$W0Rd");
-        userAccount.setId(1L);
+        //userAccount.setId(1L);
         userAccount.setCreated(new Date());
 
         return userAccount;

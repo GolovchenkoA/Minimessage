@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 //import javax.persistence.Id;
 //import javax.persistence.Table;
@@ -25,9 +26,10 @@ public class Message implements Serializable {
 
     public Message(){};
 
-    public Message(UserAccount account, String text) {
+    public Message(UserAccount account, String text, Date created) {
         this.account = account;
         this.text = text;
+        this.created = created;
     }
 
     @Id
