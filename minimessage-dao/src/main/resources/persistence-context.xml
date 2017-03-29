@@ -13,7 +13,7 @@
 
 <!--Package with annotations -->
 <context:annotation-config />
-   <context:component-scan base-package="ua.golovchenko.artem"/>
+   <context:component-scan base-package="ua.golovchenko.artem.minimessage.dao,ua.golovchenko.artem.minimessage.model"/>
 
 <!--Package with DAO classes -->
 <context:component-scan
@@ -33,11 +33,9 @@
 
 <!--Datasource classic -->
 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-       <!--<property name="driverClassName" value="${jdbc.driver}" />-->
        <property name="driverClassName" value="${jdbc.driver}" />
        <property name="url" value="${jdbc.url}" />
        <property name="username" value="${jdbc.username}" />
-       <!--<property name="username" value="minimessage_user" />-->
        <property name="password" value="${jdbc.password}" />
 </bean>
 

@@ -1,6 +1,8 @@
 package ua.golovchenko.artem.minimessage.dao;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,11 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:persistence-context-dev.xml"})
-@Transactional
 public class HibernateMessageDAOTest {
 
     @Autowired
@@ -41,10 +43,11 @@ public class HibernateMessageDAOTest {
 
     //@Mock
     private UserAccount userAccount;
-
+    //private  Connection connection;
 
     @Before
     public void setUp() throws Exception {
+
         // Init message
         message.setAccount(getUserAccount());
         messageText =  "MessageText";
@@ -59,21 +62,20 @@ public class HibernateMessageDAOTest {
 
     }
 
-/*    @After
+    @After
     public void tearDown() throws Exception {
         // Clear DB after tests
-        try {
+/*        try {
             clearDatabase();
         } catch (Exception e) {
             fail(e.getMessage());
-        }
-    }*/
+        }*/
+    }
 
 
+    @Ignore
     @Test
-    @Transactional
     public void allMessagesMustBeEmpty() throws Exception{
-
         assertTrue(messageDAO.findAll().isEmpty());
     }
 
@@ -104,7 +106,7 @@ public class HibernateMessageDAOTest {
 
     }*/
 
-    //@Ignore
+    @Ignore
     @Test
     @Transactional
     @Rollback(true)
@@ -120,17 +122,21 @@ public class HibernateMessageDAOTest {
         message2.setAccount(getUserAccount());
         message2.setCreated(new Date());
 
+        System.out.println("before: " + accountDAO.findAll());
+        System.out.println("before: " + messageDAO.findAll());
 
         assertFalse(message.equals(message1));
         assertFalse(message1.equals(message2));
-/*        messageDAO.add(message1);
+        messageDAO.add(message1);
         messageDAO.add(message2);
 
+        System.out.println("after: " + accountDAO.findAll());
+        System.out.println("after: " + messageDAO.findAll());
         // Assertions
         assertNotNull(messageDAO.findAll());
         assertThat(messageDAO.findAll().size(), is(2));
         assertTrue(messageDAO.findAll().contains(message1));
-        assertTrue(messageDAO.findAll().contains(message2));*/
+        assertTrue(messageDAO.findAll().contains(message2));
     }
 
 /*    @Test
@@ -150,28 +156,14 @@ public class HibernateMessageDAOTest {
 
     private void clearDatabase() throws Exception {
 
+        Statement stmt;
 
-        Connection connection = null;
-        try {
-            connection = ds.getConnection();
-            try {
-                Statement stmt = connection.createStatement();
-                try {
-                    stmt.execute("TRUNCATE SCHEMA PUBLIC RESTART IDENTITY AND COMMIT NO CHECK");
-                    connection.commit();
-                } finally {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new Exception(e);
-            }
-        } catch (SQLException e) {
-            throw new Exception(e);
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
+        try( Connection connection = ds.getConnection()){
+            stmt = connection.createStatement();
+            //stmt.executeUpdate("DROP SCHEMA PUBLIC CASCADE;");
+            stmt.executeUpdate("TRUNCATE SCHEMA PUBLIC AND COMMIT;");
+        }catch (SQLException e){
+            e.printStackTrace();
         }
 
     }

@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.minimessage.model;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 
 @Component
+@Scope("prototype")
 @Entity
 @Table(name="MESSAGES")
 public class Message implements Serializable {

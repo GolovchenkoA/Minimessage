@@ -17,6 +17,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,20 +30,36 @@ public class HibernateUserAccountDAOTest {
     @Autowired
     private DataSource ds;
 
-    @Autowired
+
     private UserAccount account;
     private String accountName;
     private String accountPassword;
 
 
+    private UserAccount account2;
+    private String account2Name;
+    private String account2Password;
+
+
 
     @Before
     public void setUp(){
-        accountName = "UserLogin5";
+
+        account = new UserAccount();
+        accountName = "UserLogin_1";
         accountPassword = "Pa$$W0Rd";
         account.setUsername(accountName);
         account.setPassword(accountPassword);
         account.setCreated(new Date());
+
+        account2 = new UserAccount();
+        account2Name = "UserLogin_2";
+        account2Password = "Pa$$W0Rd_2";
+        account2.setUsername(account2Name);
+        account2.setPassword(account2Password);
+        account2.setCreated(new Date());
+
+
     }
 
 
@@ -58,23 +75,22 @@ public class HibernateUserAccountDAOTest {
 
 
     @Test
-    public void userAccountMustBeEmpty() throws Exception{
-        assertTrue(accountDAO.findAll().isEmpty());
-    }
-
-
-/*
-    @Test
     @Transactional
     @Rollback(true)
     public void testAddAccountThenGetAccount() throws Exception {
         // Warning: In-memory hsqldb can remember user id between tests and this test FAIL
-        accountDAO.add(account);
 
-        assertThat(accountDAO.findAll().size(),is(1));
-        assertEquals(account,accountDAO.get(1L));
+        assertTrue(accountDAO.findAll().isEmpty());
+
+        accountDAO.add(account);
+        accountDAO.add(account2);
+
+        assertFalse(accountDAO.findAll().isEmpty());
+        assertThat(accountDAO.findAll().size(),is(2));
+        assertEquals(account, accountDAO.findAll().get(0));
+        assertEquals(account2,accountDAO.findAll().get(1));
     }
-*/
+
 
 
     @Test
@@ -82,12 +98,15 @@ public class HibernateUserAccountDAOTest {
     @Rollback(true)
     public void testDelete() throws Exception {
 
+        assertTrue(accountDAO.findAll().isEmpty());
+
         accountDAO.add(account);
         assertTrue(accountDAO.findAll().contains(account));
 
         accountDAO.delete(account.getId());
         assertFalse(accountDAO.findAll().contains(account));
     }
+
 
       @Test
       @Transactional
@@ -102,56 +121,35 @@ public class HibernateUserAccountDAOTest {
     }
 
 
-
     @Test
     @Transactional
     @Rollback(true)
     public void testFindAll() throws Exception {
 
-        UserAccount firstAccount = new UserAccount();
-        firstAccount.setUsername("User 1");
-        firstAccount.setPassword("Pa$$word");
-        firstAccount.setCreated(new Date());
+        assertTrue(accountDAO.findAll().isEmpty());
 
-        UserAccount secondAccount = new UserAccount();
-        secondAccount.setUsername("User 2");
-        secondAccount.setPassword("Pa$$word2");
-        secondAccount.setCreated(new Date());
+        accountDAO.add(account);
+        accountDAO.add(account2);
 
-        accountDAO.add(firstAccount);
-        accountDAO.add(secondAccount);
+        assertFalse(accountDAO.findAll().isEmpty());
 
         List<UserAccount> allAccounts = accountDAO.findAll();
-
-        assertTrue(allAccounts.contains(firstAccount));
-        assertTrue(allAccounts.contains(secondAccount));
+        assertTrue(allAccounts.contains(account));
+        assertTrue(allAccounts.contains(account2));
     }
 
 
     private void clearDatabase() throws Exception {
 
+        Statement stmt;
 
-        Connection connection = null;
-        try {
-            connection = ds.getConnection();
-            try {
-                Statement stmt = connection.createStatement();
-                try {
-                    stmt.execute("TRUNCATE SCHEMA PUBLIC RESTART IDENTITY AND COMMIT NO CHECK");
-                    connection.commit();
-                } finally {
-                    stmt.close();
-                }
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new Exception(e);
-            }
-        } catch (SQLException e) {
-            throw new Exception(e);
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
+        try( Connection connection = ds.getConnection()){
+            stmt = connection.createStatement();
+            //stmt.executeUpdate("DROP SCHEMA PUBLIC CASCADE;");
+            //stmt.executeUpdate("TRUNCATE SCHEMA PUBLIC AND COMMIT;");
+            stmt.executeUpdate("TRUNCATE TABLE USER_ACCOUNTS; ");
+        }catch (SQLException e){
+            e.printStackTrace();
         }
 
     }

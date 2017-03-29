@@ -51,7 +51,8 @@ subprojects{
 	ext{
 		junitVersion = '4.12'
 		mockitoVersion = '1.10.19'
-		springVersion = '3.0.5.RELEASE'
+		//springVersion = '3.0.5.RELEASE'
+		springVersion = '3.1.2.RELEASE'
 		jacocoVersion = '0.7.9'
 	}
 
@@ -189,6 +190,7 @@ project('minimessage-dao'){
 		testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
 		testCompile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
 		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
+		compile "org.springframework:spring-context:$springVersion"
 
 	}
 
