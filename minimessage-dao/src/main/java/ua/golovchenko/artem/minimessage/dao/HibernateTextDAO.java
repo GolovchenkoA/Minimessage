@@ -15,6 +15,8 @@ import java.util.List;
 
 /**
  * Created by головченко on 19.03.2017.
+ *  This class created just for testing configuration spring and hibernate
+ *  @author Golovchenko Artem
  */
 
 @Repository

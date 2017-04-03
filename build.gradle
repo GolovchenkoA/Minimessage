@@ -199,6 +199,18 @@ project('minimessage-dao'){
 project('minimessage-service'){
 	version = '1.0.0.SNAPSHOT'
 	description = 'Services'
+
+	dependencies{
+		compile project(':minimessage-model')
+		compile project(':minimessage-dao')
+
+		testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
+		testCompile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
+		compile "org.springframework:spring-context:$springVersion"
+	}
+
+
 }
 
 project('minimessage-web') {

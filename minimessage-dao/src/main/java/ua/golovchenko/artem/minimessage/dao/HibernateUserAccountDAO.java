@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * Created by головченко on 19.03.2017.
+ * DAO class for UserAccount class
+ * @author Golovchenko Artem
  */
 
 @Repository

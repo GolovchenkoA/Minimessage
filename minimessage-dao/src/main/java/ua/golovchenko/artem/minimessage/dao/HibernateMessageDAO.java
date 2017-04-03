@@ -11,8 +11,7 @@ import java.util.List;
 
 /**
  * Created by головченко on 17.03.2017.
- *
- * This class created just for testing configuration spring and hibernate
+ *  DAO class for UserAccount class
  *
  * @author Golovchenko Artem
  */
