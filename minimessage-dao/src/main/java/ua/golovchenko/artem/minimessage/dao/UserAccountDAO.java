@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserAccountDAO {
     Long add (UserAccount user);
     UserAccount get(Long userId);
+    UserAccount get(String login, String password);
     void delete(Long id);
     void update(UserAccount user);
      List<UserAccount> findAll();
