@@ -3,8 +3,11 @@ package ua.golovchenko.artem.minimessage.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.model.Message;
 
 import java.util.List;
@@ -17,6 +20,7 @@ import java.util.List;
  */
 
 @Repository
+@Transactional(propagation= Propagation.REQUIRED)
 public class HibernateMessageDAO implements MessageDAO{
 
     private SessionFactory sessionFactory;
@@ -41,6 +45,7 @@ public class HibernateMessageDAO implements MessageDAO{
     }
 
     @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public Message get(Long id) {
         return (Message) currentSession().get(Message.class, id);
     }
@@ -54,6 +59,7 @@ public class HibernateMessageDAO implements MessageDAO{
     public void update(Message message) {currentSession().update(message);}
 
     @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public List<Message> findAll() {
         Criteria criteria = currentSession().createCriteria(Message.class);
         List<Message> messages = criteria.list();
@@ -61,8 +67,13 @@ public class HibernateMessageDAO implements MessageDAO{
     }
 
     @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public List<Message> findAllbyUserId(Long userId) {
-        
-        return null;
+        Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.createAlias("account", "account");
+        criteria.add(Restrictions.like("account.id", userId));
+        List<Message> messages = criteria.list();
+
+        return messages;
     }
 }

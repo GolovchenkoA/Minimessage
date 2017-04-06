@@ -185,6 +185,7 @@ project('minimessage-dao'){
 		compile "org.slf4j:slf4j-api:1.5.8"
 		compile "org.slf4j:slf4j-nop:1.5.8"
 		compile "javassist:javassist:3.9.0.GA"
+		compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
 		 /* For Testing DAO  */
 		//testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8'
 		testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'

@@ -3,12 +3,14 @@ package ua.golovchenko.artem.minimessage.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -33,9 +35,14 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
         return sessionFactory.getCurrentSession();
     }
 
+    /**
+    *@return Long . User account id
+    *@throws ConstraintViolationException when try to add a same user account. For example with same username
+     *
+    */
     @Override
-    public void add(UserAccount user) {
-        currentSession().save(user);
+    public Long add(UserAccount user) {
+        return (Long) currentSession().save(user);
     }
 
     @Override
@@ -43,6 +50,18 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     public UserAccount get(Long id) {
         return (UserAccount) currentSession().get(UserAccount.class,id);
     }
+
+    @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
+    public UserAccount get(String login, String password) {
+
+        Criteria criteria = currentSession().createCriteria(UserAccount.class);
+        criteria.add(Restrictions.eq("username", login)).uniqueResult();
+        criteria.add(Restrictions.eq("password", password)).uniqueResult();
+
+        return (UserAccount) criteria.list().get(0);
+    }
+
 
     @Override
     public void delete(Long userId) {

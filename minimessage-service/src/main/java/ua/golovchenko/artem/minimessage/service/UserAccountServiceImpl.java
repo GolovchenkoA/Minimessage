@@ -26,14 +26,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 
     @Override
-    public void add(UserAccount user) {
-        accountDAO.add(user);
+    public Long add(UserAccount user) {
+        return accountDAO.add(user);
     }
 
     @Override
     @Transactional(propagation= Propagation.SUPPORTS,readOnly=true)
     public UserAccount get(Long userId) {
-        return null;
+        return accountDAO.get(userId);
     }
 
     @Override

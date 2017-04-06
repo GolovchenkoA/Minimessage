@@ -29,6 +29,9 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:persistence-context-dev.xml"})
 public class HibernateMessageDAOTest {
 
+    private static final String DEFAULT_USER_ACCOUNT = "DefaultUserAccount";
+    private static final String DEFAULT_USER_ACCOUNT_PASSWORD = "DefaultUserPassword";
+
     @Autowired
     private MessageDAO messageDAO;
 
@@ -177,8 +180,8 @@ public class HibernateMessageDAOTest {
 
     private UserAccount getUserAccount(){
         UserAccount userAccount = new UserAccount();
-        userAccount.setUsername("UserName");
-        userAccount.setPassword("UserPa$$W0Rd");
+        userAccount.setUsername(DEFAULT_USER_ACCOUNT);
+        userAccount.setPassword(DEFAULT_USER_ACCOUNT_PASSWORD);
         //userAccount.setId(1L);
         userAccount.setCreated(new Date());
 

@@ -3,5 +3,6 @@ CREATE TABLE `USER_ACCOUNTS` (
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   `created` DATETIME NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  UNIQUE (`username`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
