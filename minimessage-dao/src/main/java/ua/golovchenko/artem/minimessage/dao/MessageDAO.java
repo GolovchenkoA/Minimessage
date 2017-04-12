@@ -14,6 +14,6 @@ public interface MessageDAO{
     void delete(Long id);
     void update(Message message);
     List<Message> findAll();
-    List<Message> findAllbyUserId(Long userId);
+    //List<Message> findAllbyUserId(Long userId);
 
 }

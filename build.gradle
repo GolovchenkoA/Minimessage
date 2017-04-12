@@ -28,6 +28,7 @@ allprojects{
 	group = projectIds.group
 
 	repositories {
+		mavenLocal()
 		mavenCentral()
 	}
 

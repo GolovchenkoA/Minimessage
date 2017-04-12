@@ -10,6 +10,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import ua.golovchenko.artem.minimessage.model.Message;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 
 import javax.sql.DataSource;
@@ -17,7 +18,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -34,6 +37,9 @@ public class HibernateUserAccountDAOTest {
 
     @Autowired
     private UserAccountDAO accountDAO;
+
+    @Autowired
+    private MessageDAO messageDAO;
 
     @Autowired
     private DataSource ds;
@@ -100,7 +106,7 @@ public class HibernateUserAccountDAOTest {
 
     @Test(expected=DataIntegrityViolationException.class)
     public void testThrowExceptionWhenTryToAddAccountWithSameName_WithMock(){
-        UserAccount account = getNewUserAccount();
+        UserAccount account = getDefaultUserAccountWithoutID();
 
         UserAccountDAO accountDAO = mock(UserAccountDAO.class);
         when(accountDAO.add(account)).thenReturn(1L).thenThrow(new DataIntegrityViolationException("nested exception is org.hibernate.exception.ConstraintViolationException"));
@@ -115,8 +121,8 @@ public class HibernateUserAccountDAOTest {
     @Test
     @Transactional
     @Rollback(true)
-    public void testAddAccountThenGetAccountByID() throws Exception {
-        UserAccount userAccount = getNewUserAccount();
+    public void testAddAccount() throws Exception {
+        UserAccount userAccount = getDefaultUserAccountWithoutID();
         Long userId = accountDAO.add(userAccount);
 
         assertNotNull(userId);
@@ -128,10 +134,11 @@ public class HibernateUserAccountDAOTest {
     @Transactional
     @Rollback(true)
     public void testGetUserAccountByLoginAndPassword() throws Exception {
-        UserAccount userAccount = getNewUserAccount();
+        UserAccount userAccount = getDefaultUserAccountWithoutID();
         accountDAO.add(userAccount);
+        UserAccount userAccountInDB = accountDAO.get(DEFAULT_USER_ACCOUNT, DEFAULT_USER_ACCOUNT_PASSWORD);
 
-        assertEquals(userAccount,accountDAO.get(DEFAULT_USER_ACCOUNT,DEFAULT_USER_ACCOUNT_PASSWORD));
+        assertEquals(userAccount,userAccountInDB);
 
     }
 
@@ -182,6 +189,95 @@ public class HibernateUserAccountDAOTest {
     }
 
 
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testGetMessagesForAccountMustReturnListMessagesOnlyForOneAccount() throws Exception {
+
+        UserAccount account1 = getDefaultUserAccountWithoutID();
+        Long account1_ID = accountDAO.add(account1);
+
+        UserAccount account2 = new UserAccount("account2","account2Password", new Date());
+        Long account2_ID = accountDAO.add(account2);
+
+        addMessagesInDBForAccounts(account1,account2);
+
+        // Assertions
+        Set<Message> messagesForAccount1 = new HashSet<Message>(accountDAO.getMessagesForAccount(account1));
+        assertNotNull(messagesForAccount1);
+        assertThat("Number of messages in the DB must be 2", messagesForAccount1.size(), is(2));
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testGetMessagesForAccountLoginMustReturnListMessagesOnlyForOneAccountLogin() throws Exception {
+
+        UserAccount account1 = getDefaultUserAccountWithoutID();
+        Long account1_ID = accountDAO.add(account1);
+
+        UserAccount account2 = new UserAccount("account2","account2Password", new Date());
+        Long account2_ID = accountDAO.add(account2);
+
+        addMessagesInDBForAccounts(account1,account2);
+
+        // Assertions
+        Set<Message> messagesForAccount1 = new HashSet<Message>(accountDAO.getMessagesForAccount(DEFAULT_USER_ACCOUNT));
+        assertNotNull(messagesForAccount1);
+        assertThat("Number of messages in the DB must be 2", messagesForAccount1.size(), is(2));
+    }
+
+
+
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testGetUserAccountByLogin(){
+        UserAccount userAccount = getDefaultUserAccountWithoutID();
+        accountDAO.add(userAccount);
+
+        assertEquals(userAccount, accountDAO.get(DEFAULT_USER_ACCOUNT));
+
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testLoginExistsMustReturnTrueIfAccountExistsInDB(){
+        UserAccount userAccount = getDefaultUserAccountWithoutID();
+        accountDAO.add(userAccount);
+
+        assertTrue(accountDAO.loginExists(DEFAULT_USER_ACCOUNT));
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testLoginExistsMustReturnFalseIfAccountExistsInDB(){
+        UserAccount userAccount = getDefaultUserAccountWithoutID();
+        //accountDAO.add(userAccount);
+
+        assertFalse(accountDAO.loginExists(DEFAULT_USER_ACCOUNT));
+    }
+
+
+
+    //Support methods
+
+    private void addMessagesInDBForAccounts(UserAccount account1, UserAccount account2) {
+        Message message1 = new Message(account1,"User 1 Text 1", new Date());
+        Message message2 = new Message(account1,"User 1 Text 2", new Date());
+        Message message3 = new Message(account2,"User 2 Text 1", new Date());
+
+        messageDAO.add(message1);
+        messageDAO.add(message2);
+        messageDAO.add(message3);
+    }
+
+
     //Test Utility Methods
     private void clearDatabase() throws Exception {
 
@@ -199,7 +295,8 @@ public class HibernateUserAccountDAOTest {
     }
 
 
-    private UserAccount getNewUserAccount(){
+    private UserAccount getDefaultUserAccountWithoutID(){
         return new UserAccount(DEFAULT_USER_ACCOUNT,DEFAULT_USER_ACCOUNT_PASSWORD,new Date());
     }
+
 }

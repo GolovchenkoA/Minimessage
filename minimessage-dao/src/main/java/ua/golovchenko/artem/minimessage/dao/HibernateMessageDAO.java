@@ -66,14 +66,4 @@ public class HibernateMessageDAO implements MessageDAO{
         return messages;
     }
 
-    @Override
-    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
-    public List<Message> findAllbyUserId(Long userId) {
-        Criteria criteria = currentSession().createCriteria(Message.class);
-        criteria.createAlias("account", "account");
-        criteria.add(Restrictions.like("account.id", userId));
-        List<Message> messages = criteria.list();
-
-        return messages;
-    }
 }

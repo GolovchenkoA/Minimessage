@@ -147,37 +147,6 @@ public class HibernateMessageDAOTest {
     }
 
 
-    @Ignore // method messageDAO.findAllbyUserId is not implemented
-    @Test
-    @Transactional
-    @Rollback(true)
-    public void testFindAllMessagesbyUserId() throws Exception {
-
-        String text1 = "Message Text 1";
-        String text2 = "Message Text 2";
-
-        Message message1 = new Message(userAccount,text1, new Date());
-        Message message2 = new Message(userAccount,text2, new Date());
-
-        Set<Message> userMessages = new HashSet<>(2);
-        userMessages.add(message);
-        userMessages.add(message1);
-        userMessages.add(message2);
-
-
-        messageDAO.add(message1);
-        messageDAO.add(message2);
-
-
-        // Assertions
-        Set<Message> messagesInDB = new HashSet<Message>(messageDAO.findAllbyUserId(userAccount.getId()));
-        assertNotNull(messagesInDB);
-        assertThat("Number of messages in the DB must be 2",messagesInDB, is(2));
-        assertEquals(userMessages,messagesInDB);
-
-    }
-
-
     private UserAccount getUserAccount(){
         UserAccount userAccount = new UserAccount();
         userAccount.setUsername(DEFAULT_USER_ACCOUNT);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ua.golovchenko.artem.minimessage.model.Message;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 
 import javax.validation.ConstraintViolationException;
@@ -62,6 +63,28 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
         return (UserAccount) criteria.list().get(0);
     }
 
+    @Override
+    public UserAccount get(String login) {
+        Criteria criteria = currentSession().createCriteria(UserAccount.class);
+        criteria.add(Restrictions.eq("username", login)).uniqueResult();
+
+        return (UserAccount) criteria.list().get(0);
+    }
+
+    @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
+    public boolean loginExists(String login) {
+        boolean exists = false;
+
+        Criteria criteria = currentSession().createCriteria(UserAccount.class);
+        criteria.add(Restrictions.eq("username", login)).uniqueResult();
+
+        if (!(criteria.list().isEmpty()) && !(criteria.list().get(0) == null)){
+            exists = true;
+        }
+
+        return exists;
+    }
 
     @Override
     public void delete(Long userId) {
@@ -81,4 +104,36 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
         List<UserAccount> accounts = criteria.list();
         return accounts;
     }
+
+    @Override
+    public List<Message> getMessagesForAccount(UserAccount account) {
+        Long userId = account.getId();
+        Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.createAlias("account", "account");
+        criteria.add(Restrictions.like("account.id", userId));
+        List<Message> messages = criteria.list();
+
+        return messages;
+    }
+
+
+        @Override
+    public List<Message> getMessagesForAccount(String login) {
+
+        UserAccount account = get(login);
+        Long userId = account.getId();
+
+        Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.createAlias("account", "account");
+        criteria.add(Restrictions.like("account.id", userId));
+        List<Message> messages = criteria.list();
+
+        return messages;
+    }
+
+
+
+
+
+
 }
