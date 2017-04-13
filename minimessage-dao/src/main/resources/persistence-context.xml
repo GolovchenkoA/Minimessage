@@ -19,7 +19,7 @@
 <context:component-scan
         base-package="ua.golovchenko.artem.minimessage.dao" />
 
-<context:property-placeholder location="jdbc.properties"/>
+<context:property-placeholder location="classpath:jdbc.properties"/> <!--Added classpath: becouse without this, loading war-file  fail-->
 
 
 <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>

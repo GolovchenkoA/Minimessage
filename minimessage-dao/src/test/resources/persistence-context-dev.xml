@@ -15,9 +15,9 @@
 
        <import resource="persistence-context.xml"/>
 
-<!--       <jdbc:embedded-database id="dataSource" type="HSQL">
-              <jdbc:script location="classpath:DB/DB_Testing/00_init_db_hsql.sql"/>
-       </jdbc:embedded-database>-->
+       <!--       <jdbc:embedded-database id="dataSource" type="HSQL">
+                     <jdbc:script location="classpath:DB/DB_Testing/00_init_db_hsql.sql"/>
+              </jdbc:embedded-database>-->
 
        <!--DataSource  In-Memory DB       -->
        <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -26,17 +26,16 @@
               <property name="url" value="jdbc:hsqldb:mem:testdb"/> <!--in-memory instance   -->
               <property name="username" value="sa"/>
               <property name="password" value=""/>
-<!--              <property name="initialSize" value="10"/>
-              <property name="testOnBorrow" value="true"/>-->
+              <!--              <property name="initialSize" value="10"/>
+                            <property name="testOnBorrow" value="true"/>-->
        </bean>
 
-<!--
-       &lt;!&ndash;Manual initialize database befor testing   &ndash;&gt;
-       <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-              <jdbc:script location="classpath:DB/DB_Testing/00_init_db_hsql.sql" />
-       </jdbc:initialize-database>
-
--->
+       <!--
+              &lt;!&ndash;Manual initialize database befor testing   &ndash;&gt;
+              <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+                     <jdbc:script location="classpath:DB/DB_Testing/00_init_db_hsql.sql" />
+              </jdbc:initialize-database>
+       -->
 
        <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
               <property name="dataSource" ref="dataSource" />

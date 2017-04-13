@@ -11,6 +11,9 @@ import ua.golovchenko.artem.minimessage.model.UserAccount;
 
 import java.util.List;
 
+import static java.lang.Math.min;
+import static java.util.Collections.reverse;
+
 /**
  * Created by головченко on 02.04.2017.
  */
@@ -82,21 +85,29 @@ public class MinimessagesServiceImpl implements MinimessagesService {
     }
 
     @Override
+    @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
     public Message getMessageById(Long id) {
         throw new UnsupportedOperationException("Method not implemented");
     }
 
     @Override
+    @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
     public List<Message> getRecentMessages(int count) {
-        throw new UnsupportedOperationException("Method not implemented");
+        List<Message> messages = messageDAO.getRecentMessages(count);
+        reverse(messages);
+
+        // Max return 50 messages
+        return messages.subList(0, min(49, messages.size()));
     }
 
     @Override
+    @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
     public List<Message> getMessagesForAccount(UserAccount account) {
         return accountDAO.getMessagesForAccount(account);
     }
 
     @Override
+    @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
     public List<Message> getMessagesForAccount(String login) {
         UserAccount account = accountDAO.get(login);
         return getMessagesForAccount(account);

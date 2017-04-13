@@ -104,7 +104,10 @@ public class HibernateUserAccountDAOTest {
         assertEquals(account2,accountDAO.findAll().get(1));
     }
 
+
     @Test(expected=DataIntegrityViolationException.class)
+    @Transactional
+    @Rollback(true)
     public void testThrowExceptionWhenTryToAddAccountWithSameName_WithMock(){
         UserAccount account = getDefaultUserAccountWithoutID();
 

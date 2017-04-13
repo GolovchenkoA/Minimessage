@@ -3,6 +3,7 @@ package ua.golovchenko.artem.minimessage.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -66,4 +67,16 @@ public class HibernateMessageDAO implements MessageDAO{
         return messages;
     }
 
+    @Override
+    @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
+    public List<Message> getRecentMessages(int count) {
+
+        Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.addOrder(Order.desc("created"));
+        criteria.setMaxResults(count);
+
+        List<Message> messages = criteria.list();
+
+        return messages;
+    }
 }
