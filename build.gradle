@@ -223,21 +223,27 @@ project('minimessage-web') {
 
 
 	version = '1.0.0.SNAPSHOT'
-	description = 'Web'
+	description = 'Minimessages Web'
 	
 	apply plugin: 'war'
 	dependencies {
 		compile project(':minimessage-model')
-		compile project(':minimessage-dao')
+		//compile project(':minimessage-dao')
+		compile project(':minimessage-service')
 		compile "org.springframework:spring-webmvc:$springVersion"
 		// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
 		compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+		compile "org.apache.tiles:tiles-core:2.2.2"
+		compile "org.apache.tiles:tiles-jsp:2.2.2"
+		compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+		compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2' //for jstl/core & jstl/fmt
 
 		ext.cargoVersion = '1.6.2'
 		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
 				"org.codehaus.cargo:cargo-ant:$cargoVersion"
 
 	}
+
 
 	cargo{
 		containerId = 'tomcat9x'
