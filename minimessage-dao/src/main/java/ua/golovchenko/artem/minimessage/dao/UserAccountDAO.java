@@ -22,6 +22,4 @@ public interface UserAccountDAO {
      List<UserAccount> findAll();
     List<Message> getMessagesForAccount(String login);
     List<Message> getMessagesForAccount(UserAccount account);
-
-
 }

@@ -30,7 +30,7 @@
              border="0"
              align="middle"
              onError=
-                     "this.src='<s:url value="/resources/images"/>/account_avatar.jpeg';"/>
+                     "this.src='<s:url value="/resources/images"/>/account_avatar.png';"/>
       </span>
       <span class="minimessageListText">
         <a href="${account_url}">
@@ -42,5 +42,6 @@
     </c:forEach>
   </ol>
 
+    <a href="/accounts/messages?account=FirstUserLogin">Link to FirstUserLogin Messages<a/>
 </div>
 

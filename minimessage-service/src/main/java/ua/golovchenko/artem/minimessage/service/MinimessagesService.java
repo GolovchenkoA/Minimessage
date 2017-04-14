@@ -11,6 +11,7 @@ import java.util.List;
 public interface MinimessagesService {
     void saveAccount(UserAccount user);
     UserAccount getAccountById(Long userId);
+    UserAccount getAccountByLogin(String login);
     boolean loginExists(String login);
     void update(UserAccount user);
 

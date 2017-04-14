@@ -49,6 +49,11 @@ public class MinimessagesServiceImpl implements MinimessagesService {
         return accountDAO.get(userId);
     }
 
+    @Override
+    @Transactional(propagation= Propagation.SUPPORTS,readOnly=true)
+    public UserAccount getAccountByLogin(String login) {
+        return accountDAO.get(login);
+    }
 
     @Override
     @Transactional(propagation= Propagation.SUPPORTS,readOnly=true)
@@ -109,7 +114,8 @@ public class MinimessagesServiceImpl implements MinimessagesService {
     @Override
     @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
     public List<Message> getMessagesForAccount(String login) {
+
         UserAccount account = accountDAO.get(login);
-        return getMessagesForAccount(account);
+        return accountDAO.getMessagesForAccount(account);
     }
 }

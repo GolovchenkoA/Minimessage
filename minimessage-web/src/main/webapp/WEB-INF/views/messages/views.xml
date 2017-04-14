@@ -1,0 +1,12 @@
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <definition name="messages/list" extends="template">
+        <put-attribute name="content" value="/WEB-INF/views/messages/list.jsp" />
+    </definition>
+
+
+</tiles-definitions>

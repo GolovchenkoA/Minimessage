@@ -63,11 +63,19 @@ public class MinimessagesServiceImplTest {
     }
 
     @Test
-    public void testMethodGetMustCallMethodDaoGet() {
+    public void testMethodGetAccountByIdMustCallMethodDaoGet() {
         minimessagesService.getAccountById(1L);
 
         verify(userAccountDAO,times(1)).get(1L);
     }
+
+    @Test
+    public void testMethodGetAccountByLoginMustCallMethodDaoGet() {
+        minimessagesService.getAccountByLogin("Login");
+
+        verify(userAccountDAO,times(1)).get("Login");
+    }
+
 
     @Test
     public void testGetAllAccountsMustCallMethodDAOFindAll(){
@@ -122,14 +130,14 @@ public class MinimessagesServiceImplTest {
     @Test
     public void testGetMessagesForAccountLoginMustCallMethodUserAccountDaoGetMessagesForAccountLogin(){
 
-        MinimessagesService minimessagesService = mock(MinimessagesService.class);
         UserAccount account = getDummyUserAccountWithID();
+        String login = account.getUsername();
 
-        minimessagesService.getMessagesForAccount(account.getUsername());
+        when(userAccountDAO.get(login)).thenReturn(account);
+        minimessagesService.getMessagesForAccount(login);
 
-        verify(userAccountDAO,times(1)).get(account.getUsername());
-        //verify(userAccountDAO,times(1)).get(account.getUsername());
-        verify(minimessagesService,times(1)).getMessagesForAccount(account);
+        verify(userAccountDAO, times(1)).get(account.getUsername());
+        verify(userAccountDAO,times(1)).getMessagesForAccount(account);
 
     }
 

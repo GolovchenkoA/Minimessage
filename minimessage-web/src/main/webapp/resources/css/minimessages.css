@@ -1,7 +1,7 @@
 body {
-    background: #ff9933 url(../images/minimessages_background.png) no-repeat
-    fixed left top;
-    color: #333333;
+    background: #ff9933 url(../images/minimessages_background.png) 100%
+    /*fixed left top;*/
+    /*color: #333333;
     font-family: 'Lucida Grande',sans-serif;
     font-size: 0.75em;
     font-size-adjust: none;
@@ -10,7 +10,7 @@ body {
     font-variant: normal;
     font-weight: normal;
     line-height: 1.5;
-    text-align: center;
+    text-align: center;*/
 }
 
 #container {
@@ -57,9 +57,11 @@ td label {
     font-weight: normal;
 }
 
-table.horizontalRuled td {
+table.horizontalRuled td th {
     border-bottom: 1px solid #BBBBBB;
 }
+
+
 
 fieldset {
     margin: 10px 0pt;

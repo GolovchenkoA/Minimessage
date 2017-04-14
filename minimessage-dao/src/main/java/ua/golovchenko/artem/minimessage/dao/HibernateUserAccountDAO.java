@@ -109,8 +109,9 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     public List<Message> getMessagesForAccount(UserAccount account) {
         Long userId = account.getId();
         Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //Exclude duplicates http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
         criteria.createAlias("account", "account");
-        criteria.add(Restrictions.like("account.id", userId));
+        criteria.add(Restrictions.eq("account.id", userId));
         List<Message> messages = criteria.list();
 
         return messages;
@@ -124,8 +125,9 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
         Long userId = account.getId();
 
         Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //Exclude duplicates http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
         criteria.createAlias("account", "account");
-        criteria.add(Restrictions.like("account.id", userId));
+        criteria.add(Restrictions.eq("account.id", userId));
         List<Message> messages = criteria.list();
 
         return messages;

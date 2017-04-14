@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -72,7 +70,7 @@ public class UserAccountTest {
         userMessages.add(message);
         userAccount.setMessages(userMessages);
 
-        Set<Message>allUserMessages = userAccount.getMessages();
+        Set<Message> allUserMessages = userAccount.getMessages();
 
         assertNotNull(allUserMessages);
 /*        System.out.println("All messages: ");

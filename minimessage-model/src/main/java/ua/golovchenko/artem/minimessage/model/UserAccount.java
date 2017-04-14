@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by головченко on 15.03.2017.
@@ -21,9 +21,15 @@ import java.util.Set;
 public class UserAccount implements Serializable {
 
     private Long id;
+
+    @Pattern(regexp="^[a-zA-Z0-9]+$",
+            message="Username must be alphanumeric with no spaces")
     private String username;
+
+    @Size(min=6, max=25,
+            message="The password must be at least 6 characters long.") //<co id="co_enforceSize"/>
     private String password;
-    private Set<Message> messages = new HashSet();
+    private Set<Message> messages = new HashSet<>();
     private Date created;
 
     public UserAccount(){}
@@ -80,7 +86,8 @@ public class UserAccount implements Serializable {
         this.created = created;
     }
 
-    @OneToMany(mappedBy = "account") //, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER) //, cascade = CascadeType.ALL)
+    @OrderBy("created DESC")
     //@JoinColumn(name="id")
     public Set<Message> getMessages() {
         return messages;
