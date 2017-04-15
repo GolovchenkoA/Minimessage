@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -22,12 +23,15 @@ public class UserAccount implements Serializable {
 
     private Long id;
 
+    //@NotNull(message = "login is blank")
+    @Size(min=1, max=25)
     @Pattern(regexp="^[a-zA-Z0-9]+$",
-            message="Username must be alphanumeric with no spaces")
+            message="Username must be alphanumeric with no spaces. Max 25 characters")
     private String username;
 
+    //@NotNull(message = "password is blank")
     @Size(min=6, max=25,
-            message="The password must be at least 6 characters long.") //<co id="co_enforceSize"/>
+            message="The password must be at least 6 characters long and maximum 25 characters.") //<co id="co_enforceSize"/>
     private String password;
     private Set<Message> messages = new HashSet<>();
     private Date created;

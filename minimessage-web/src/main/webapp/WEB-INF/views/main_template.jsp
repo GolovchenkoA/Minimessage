@@ -21,8 +21,8 @@
   <a href="<s:url value="/home" />"><img src="<s:url value="/resources" />/images/minimessage_logo.png" border="0"/></a>
   <%--  <div id="top">
       <t:insertAttribute name="top" /> <!--<co id="co_tile_top" />-->
-    </div>
-    <div id="side">
+    </div>--%>
+<%--    <div id="side">
       <t:insertAttribute name="side" /> <!--<co id="co_tile_side" />-->
     </div>--%>
     <div id="content">
