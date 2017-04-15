@@ -2,20 +2,21 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div>
-  <sec:authorize access="!isAuthenticated()">
+<%--  <sec:authorize access="!isAuthenticated()">--%>
 
     <div class="msg">
-      <h3>Please Sign In!</h3>
+      <h3>Sign In!</h3>
     </div>
 
-    <form class="signin" action="<s:url value="/static/j_spring_security_check"/>" method="post">
+    <%--<form class="signin" action="<s:url value="/static/j_spring_security_check"/>" method="post">--%>
+    <form class="signin"  method="post">
       <fieldset>
         <div>
-          <label for="j_username">Login</label>
-          <input id="email" type="text" name="j_username"/>
+          <label>Login</label>
+          <input id="login" type="text" name="j_username"/>
         </div>
         <div>
-          <label for="j_password">Password</label>
+          <label>Password</label>
           <input id="pass" type="password" name="j_password"/>
         </div>
           <%--		    <input id="remember_me" type="checkbox" value="1"
@@ -28,13 +29,13 @@
                name="commit"/>
       </fieldset>
     </form>
-    <%--		<div class="notify">
+    		<div class="notify">
                 Do you want a new account?
               <br/>
-              <a class="join" href="<s:url value="/spitters?new"/>">Create!</a>
+              <a class="join" href="<s:url value="/accounts?new"/>">Create new account!</a>
               <br/>
-            </div>--%>
-  </sec:authorize>
+            </div>
+ <%-- </sec:authorize>--%>
 
 <%--  <sec:authorize access="isAuthenticated()">
     <s:url value="/resources/images" var="images_url" />

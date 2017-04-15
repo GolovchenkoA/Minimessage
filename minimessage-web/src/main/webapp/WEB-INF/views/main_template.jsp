@@ -22,11 +22,11 @@
   <%--  <div id="top">
       <t:insertAttribute name="top" /> <!--<co id="co_tile_top" />-->
     </div>--%>
-<%--    <div id="side">
+    <div id="side">
       <t:insertAttribute name="side" /> <!--<co id="co_tile_side" />-->
-    </div>--%>
+    </div>
     <div id="content">
-      <t:insertAttribute name="content" /> <!--<co id="co_tile_content" />-->
+      <t:insertAttribute name="content" />
     </div>
 </div>
 </body>
