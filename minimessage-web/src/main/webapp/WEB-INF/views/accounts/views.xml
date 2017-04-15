@@ -4,11 +4,11 @@
 
 <tiles-definitions>
 
-    <definition name="accounts/edit" extends="template">
+    <definition name="accounts/edit" extends="main_template_without_signup">
         <put-attribute name="content" value="/WEB-INF/views/accounts/edit.jsp" />
     </definition>
 
-    <definition name="accounts/view" extends="template">
+    <definition name="accounts/view" extends="main_template_without_signup">
         <put-attribute name="content" value="/WEB-INF/views/accounts/view.jsp" />
     </definition>
 

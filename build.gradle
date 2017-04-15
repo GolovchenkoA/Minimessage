@@ -239,7 +239,8 @@ project('minimessage-web') {
 		compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 		compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2' //for jstl/core & jstl/fmt
 		compile "org.springframework.security:spring-security-taglibs:3.0.3.RELEASE"
-		compile "org.hibernate:hibernate-validator:4.0.2.GA"
+		compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+		/*compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'*/
 
 
 		ext.cargoVersion = '1.6.2'

@@ -4,7 +4,7 @@
 
 <tiles-definitions>
 
-    <definition name="messages/list" extends="template">
+    <definition name="messages/list" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/messages/list.jsp" />
     </definition>
 
