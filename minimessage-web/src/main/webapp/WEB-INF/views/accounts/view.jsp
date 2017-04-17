@@ -7,5 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <h2>Account</h2>
-<h3>${account.username}</h3>
-<p>${account.password}</p>
+
+if(account != null){
+  <h3>${account.username}</h3>
+  <p>${account.password}</p>
+} else{
+<p>account not found</p>
+}

@@ -32,6 +32,18 @@ public class HomeController{
         return "home";
     }
 
+    @RequestMapping(value = {"/welcome"},method = RequestMethod.GET)
+    public String loginAccount(){
+        return "welcome";
+    }
+
+        @RequestMapping(value = {"/logout"},method = RequestMethod.GET)
+    public String logoutAccount(){
+        return "j_spring_security_logout";
+    }
+
+
+
     public void setMessagesPerPage(int messagesPerPage) {
         this.messagesPerPage = messagesPerPage;
     }

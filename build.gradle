@@ -195,6 +195,7 @@ project('minimessage-dao'){
 		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
 		compile "org.springframework:spring-context:$springVersion"
 		compile group: 'org.hibernate', name: 'hibernate-validator', version: "$hibernateValidator" //For Tomcat. add because have error when deploy on apache tomcat (on glassfish working without this library). http://stackoverflow.com/questions/9772608/validationexception-unable-to-find-a-default-provider
+
 	}
 
 }
@@ -233,15 +234,20 @@ project('minimessage-web') {
 		compile project(':minimessage-service')
 		compile "org.springframework:spring-webmvc:$springVersion"
 		// https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-		compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 		compile "org.apache.tiles:tiles-core:2.2.2"
 		compile "org.apache.tiles:tiles-jsp:2.2.2"
+
+		compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 		compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 		compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2' //for jstl/core & jstl/fmt
-		compile "org.springframework.security:spring-security-taglibs:3.0.3.RELEASE"
-		compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
-		/*compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'*/
 
+		compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+
+		compile "org.springframework.security:spring-security-core:3.0.3.RELEASE" // Main lib
+		compile "org.springframework.security:spring-security-web:3.0.3.RELEASE" // Filter usage
+		compile "org.springframework.security:spring-security-config:3.0.3.RELEASE" //Provides XML namespace support
+		compile "org.springframework.security:spring-security-taglibs:3.0.3.RELEASE" //include JSP-tags for view security
+		//compile "org.springframework.security:spring-security-ldap:3.0.3.RELEASE"
 
 		ext.cargoVersion = '1.6.2'
 		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",

@@ -20,6 +20,7 @@
 <body>
 <div id="container">
   <a href="<s:url value="/home" />"><img title="minimessage_logo.png" src="<s:url value="/resources" />/images/minimessage_logo.png" border="0"/></a>
+  <p><a href="<s:url value="/j_spring_security_logout">" >Logout </a></p>
   <%--  <div id="top">
       <t:insertAttribute name="top" /> <!--<co id="co_tile_top" />-->
     </div>--%>
