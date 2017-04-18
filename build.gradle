@@ -241,7 +241,9 @@ project('minimessage-web') {
 		compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 		compile group: 'javax.servlet.jsp.jstl', name: 'jstl-api', version: '1.2' //for jstl/core & jstl/fmt
 
-		compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+		//compile group: 'org.hibernate', name: 'hibernate-validator', version: '4.2.0.Final'
+		compile group: 'org.hibernate', name: 'hibernate-validator', version: "$hibernateValidator" //For Tomcat. add because have error when deploy on apache tomcat (on glassfish working without this library). http://stackoverflow.com/questions/9772608/validationexception-unable-to-find-a-default-provider
+
 
 		compile "org.springframework.security:spring-security-core:3.0.3.RELEASE" // Main lib
 		compile "org.springframework.security:spring-security-web:3.0.3.RELEASE" // Filter usage

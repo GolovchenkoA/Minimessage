@@ -59,6 +59,7 @@ public class AccountController {
         }
 
         account.setCreated(new Date());
+        account.setEnabled(true);
         minimessagesService.saveAccount(account);
         return "redirect:/accounts/" + account.getUsername();
     }

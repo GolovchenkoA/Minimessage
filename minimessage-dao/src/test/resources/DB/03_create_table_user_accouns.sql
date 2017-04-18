@@ -3,6 +3,8 @@ CREATE TABLE `user_accounts` (
   `created` datetime NOT NULL,
   `password` varchar(25) NOT NULL,
   `username` varchar(25) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+

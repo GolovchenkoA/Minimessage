@@ -41,7 +41,5 @@
       </span></li>
     </c:forEach>
   </ol>
-
-    <a href="/accounts/messages?account=FirstUserLogin">Link to FirstUserLogin Messages<a/>
 </div>
 

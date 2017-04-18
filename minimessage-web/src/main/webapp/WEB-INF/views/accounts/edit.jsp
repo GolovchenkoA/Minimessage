@@ -13,6 +13,7 @@
                 <td><form:input path="username" maxlength="25" title="example: JackieChan"/></td>
                 <td>
                     <%--<form:errors path="username" cssClass="error" /></td>--%>
+                </td>
             </tr>
             <tr>
                 <td>Password</td>

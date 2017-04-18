@@ -22,12 +22,12 @@
 
     <definition name="welcome" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/home.jsp" />
-        <put-attribute name="side" value="/WEB-INF/views/tiles/logout.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 
     <definition name="login" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/login.jsp" />
-        <put-attribute name="side" value="/WEB-INF/views/tiles/logout.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 
 

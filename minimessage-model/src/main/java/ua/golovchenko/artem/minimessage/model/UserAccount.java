@@ -34,7 +34,10 @@ public class UserAccount implements Serializable {
             message="The password must be at least 6 characters long and maximum 25 characters.") //<co id="co_enforceSize"/>
     private String password;
     private Set<Message> messages = new HashSet<>();
+    private Set<AccountRoleImpl> accountRoles = new HashSet<>();
+
     private Date created;
+    private boolean enabled;
 
     public UserAccount(){}
 
@@ -91,7 +94,7 @@ public class UserAccount implements Serializable {
     }
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER) //, cascade = CascadeType.ALL)
-    @OrderBy("created DESC")
+    //@OrderBy("created ASC")
     //@JoinColumn(name="id")
     public Set<Message> getMessages() {
         return messages;
@@ -101,7 +104,50 @@ public class UserAccount implements Serializable {
         this.messages = messages;
     }
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "ACCOUNTS_AND_ROLES",
+            joinColumns = @JoinColumn(name = "ACCOUNT_ID",nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID",nullable = false))
+    public Set<AccountRoleImpl> getAccountRoles() {
+        return accountRoles;
+    }
+
+    public void setAccountRoles(Set<AccountRoleImpl> accountRoles) {
+        this.accountRoles = accountRoles;
+    }
+
+    public void addRole(AccountRoleImpl role){
+        accountRoles.add(role);
+    }
+
+     public void removeRole(AccountRoleImpl role){
+        accountRoles.remove(role);
+    }
+
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserAccount account = (UserAccount) o;
+
+        if (!accountRoles.equals(account.accountRoles)) return false;
+        if (messages != null ? !messages.equals(account.messages) : account.messages != null) return false;
+        if (!password.equals(account.password)) return false;
+        if (!username.equals(account.username)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
+    }
+
+    // Equals and HashCode without AccountRoles
+    /*    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -119,7 +165,7 @@ public class UserAccount implements Serializable {
         int result = username.hashCode();
         result = 31 * result + password.hashCode();
         return result;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -128,5 +174,13 @@ public class UserAccount implements Serializable {
                 ", username='" + username + '\'' +
                 ", created=" + created +
                 '}';
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 }

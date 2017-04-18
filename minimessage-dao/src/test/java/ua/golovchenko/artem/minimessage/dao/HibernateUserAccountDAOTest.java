@@ -259,9 +259,8 @@ public class HibernateUserAccountDAOTest {
     @Test
     @Transactional
     @Rollback(true)
-    public void testLoginExistsMustReturnFalseIfAccountExistsInDB(){
+    public void testLoginExistsMustReturnFalseIfAccountDoesntExistsInDB(){
         UserAccount userAccount = getDefaultUserAccountWithoutID();
-        //accountDAO.add(userAccount);
 
         assertFalse(accountDAO.loginExists(DEFAULT_USER_ACCOUNT));
     }
@@ -298,6 +297,7 @@ public class HibernateUserAccountDAOTest {
     }
 
 
+    //Addinional methods
     private UserAccount getDefaultUserAccountWithoutID(){
         return new UserAccount(DEFAULT_USER_ACCOUNT,DEFAULT_USER_ACCOUNT_PASSWORD,new Date());
     }

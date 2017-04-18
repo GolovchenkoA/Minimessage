@@ -18,7 +18,12 @@ import java.util.Properties;
  * Created by головченко on 29.03.2017.
  *
  * This is Spring Configuration File for JUnit Tests (Database Type: MySQL)
+ *
+ *
+ * !!!!! Doesn't work. Instead this class nessesary to use persistence-context-dev.xml
  */
+
+
 
 @Configuration
 @EnableTransactionManagement

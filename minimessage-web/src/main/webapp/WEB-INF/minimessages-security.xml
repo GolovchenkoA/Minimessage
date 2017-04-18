@@ -14,6 +14,13 @@
     <http auto-config="true" use-expressions="true">
 
         <!--Login with Form  -->
+        <!--Description settings (for v3.2.0) https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security/ -->
+        <form-login
+                default-target-url="/welcome"
+                always-use-default-target='false'/>
+        <logout logout-success-url="/home"  />
+
+<!--
         <form-login
                 login-page="/login"
                 login-processing-url="/static/j_spring_security_check"
@@ -22,6 +29,7 @@
                 always-use-default-target='false'/>
         <logout logout-success-url="/home"  />
 
+-->
 
         <!--<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />-->
 
@@ -36,6 +44,7 @@
         <intercept-url pattern="/home" filters="none"/> <!--Exclude filter by mask  -->
         <intercept-url pattern="/" filters="none"/> <!--Exclude filter by mask  -->
         <!--<intercept-url pattern="/accounts?new" filters="none"/>--> <!--Exclude filter by mask  -->
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/> <!--Intercept all urls and check users must have ROLE_ACCOUNT-->
         <intercept-url pattern="/**" access="hasRole('ROLE_USER')"/> <!--Intercept all urls and check users must have ROLE_ACCOUNT-->
 
 
@@ -53,13 +62,32 @@
     or off.site (2.2.3 Using other Authentication Providers)
     https://docs.spring.io/spring-security/site/docs/3.0.x/reference/ns-config.html
     /-->
-    <authentication-manager alias="authenticationManager">
+
+<!--    <authentication-manager alias="authenticationManager">
         <authentication-provider>
             <user-service>
                 <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
                 <user name="user" password="user" authorities="ROLE_USER" />
             </user-service>
-            <user-service id="usersFromFile" properties="accounts.properties"/><!-- Authentificationn from file. Doesn't work because it second user-service -->
+            <user-service id="usersFromFile" properties="accounts.properties"/>&lt;!&ndash; Authentificationn from file. Doesn't work because it second user-service &ndash;&gt;
+        </authentication-provider>
+    </authentication-manager>-->
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+                  users-by-username-query="
+                      select username,password,case enabled when 1 then 'true' else 'false' end 'enabled'
+                      from user_accounts WHERE username=?"
+
+                  authorities-by-username-query="
+                    select account.username,roles.name
+                    from user_accounts account inner join accounts_and_roles role
+                    on account.id = role.account_id
+                    inner join accounts_roles roles
+                    on role.role_id = roles.id
+                    where account.username = ?"/>
+
         </authentication-provider>
     </authentication-manager>
 

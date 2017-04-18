@@ -3,6 +3,7 @@ package ua.golovchenko.artem.minimessage.dao;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -101,6 +102,8 @@ public class HibernateUserAccountDAO implements UserAccountDAO {
     @Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
     public List<UserAccount> findAll() {
         Criteria criteria = currentSession().createCriteria(UserAccount.class);
+        criteria.addOrder(Order.desc("id"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //Exclude duplicates http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
         List<UserAccount> accounts = criteria.list();
         return accounts;
     }

@@ -4,13 +4,13 @@
 
 <tiles-definitions>
 
-    <definition name="accounts/edit" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/accounts/edit.jsp" />
+    <definition name="admin/roles" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/admin/roles.jsp" />
         <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 
-    <definition name="accounts/view" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/accounts/view.jsp" />
+    <definition name="admin/accounts" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/admin/accounts.jsp" />
         <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 

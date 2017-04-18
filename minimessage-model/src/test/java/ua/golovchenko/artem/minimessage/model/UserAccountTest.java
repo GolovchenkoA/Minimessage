@@ -54,6 +54,8 @@ public class UserAccountTest {
     }
 
 
+
+
     @Test
     public void testSetMessagesThenGetMessagesMustBeEquals() throws Exception {
 
@@ -91,5 +93,88 @@ public class UserAccountTest {
         assertNotNull(userAccount.getCreated());
         assertEquals(accountCreated, userAccount.getCreated());
     }
+
+
+    @Test
+    public void testSetAccountRolesThenGetAccountRolesMustBeEquals(){
+        List<AccountRole> roles = new ArrayList<>();
+        roles.add(new AccountRoleImpl("ROLE_USER"));
+
+
+    }
+
+    @Test
+    public void testAccountsWithSameRolesAndMessagesShouldBeEquals(){
+
+        Date created = new Date();
+        // Account 1
+        UserAccount account = getNewUserAccountWithRoleUser();
+        Set<Message> messages = new HashSet<>();
+        // Account 2
+        Set<Message> messages2 = new HashSet<>();
+        UserAccount account2 = getNewUserAccountWithRoleUser();
+
+
+        //add messages to account 1
+        messages.add(new Message(account,"text",created));
+        account.setMessages(messages);
+        //add messages to account 1
+        messages2.add(new Message(account,"text2",created));
+        account2.setMessages(messages2);
+
+
+        assertTrue("Compare accounts", account.equals(account2));
+        assertTrue("Compare accounts", account2.equals(account));
+
+    }
+
+     @Test
+    public void testAccountsWithSameRolesAndMessagesShouldNotBeEquals(){
+
+        Date created = new Date();
+         // Account 1
+        UserAccount account = getNewUserAccountWithRoleUser();
+        Set<Message> messages = new HashSet<>();
+        // Account 2
+        Set<Message> messages2 = new HashSet<>();
+        UserAccount account2 = getNewUserAccountWithRoleUser();
+
+
+        //add messages to account 1
+        messages.add(new Message(account,"text",created));
+        account.setMessages(messages);
+        //add messages to account 1
+        messages2.add(new Message(account,"text2",created));
+        account2.setMessages(messages2);
+
+
+        assertFalse("Compare accounts", account.equals(account2));
+        assertFalse("Compare accounts", account2.equals(account));
+    }
+
+    @Test
+    public void testEnabled(){
+        userAccount.setEnabled(true);
+        assertTrue(userAccount.isEnabled());
+
+        userAccount.setEnabled(false);
+        assertFalse(userAccount.isEnabled());
+
+    }
+
+
+
+    // Additional methods
+    private UserAccount getNewUserAccountWithRoleUser(){
+        Date created = new Date();
+
+        UserAccount account = new UserAccount("name","password", created);
+        AccountRoleImpl role = new AccountRoleImpl("user");
+        account.addRole(role);
+
+        return  account;
+    }
+
+
 
 }
