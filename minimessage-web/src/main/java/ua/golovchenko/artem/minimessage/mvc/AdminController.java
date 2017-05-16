@@ -1,8 +1,10 @@
 package ua.golovchenko.artem.minimessage.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,20 +40,29 @@ public class AdminController {
     }
 
 
+/*    @RequestMapping(value = "/", method = GET)
+    public String mainMenu(Model model){
 
+        return "redirect:admin/roles";
+    }*/
 
-    @RequestMapping(value = "roles", method = POST )
-    public String addRole(@Valid AccountRoleImpl role, BindingResult result){
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = "create_new_role", method = POST )
+    //@RequestMapping(method = POST )
+    public String addRole(@Valid AccountRoleImpl role, BindingResult result) throws BindException {
 
         if(result.hasErrors()){
-            return "admin/roles";
+            throw new BindException(result);
+/*          return "admin/roles";*/
         }
 
         rolesService.add(role);
-        return "admin/roles";
+
+        return "redirect:/admin/roles";
     }
 
-    @RequestMapping(value = "roles", method = GET)
+    @Secured("ROLE_ADMIN")
+    @RequestMapping(value = {"","roles"}, method = GET)
     public String rolesInfo(Model model){
         List<AccountRole> roles = rolesService.listRoles();
 
@@ -61,7 +72,7 @@ public class AdminController {
         return "admin/roles";
     }
 
-
+    @Secured("ROLE_ADMIN")
      @RequestMapping(value = "accounts", method = GET)
     public synchronized String accountsInfo(Model model){
         List<UserAccount> accounts = minimessagesService.getAllAccounts();
@@ -71,8 +82,4 @@ public class AdminController {
         return "admin/accounts";
     }
 
-
-    public MinimessagesService getMinimessagesService() {
-        return minimessagesService;
-    }
 }

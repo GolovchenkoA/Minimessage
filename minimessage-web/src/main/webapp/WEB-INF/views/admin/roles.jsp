@@ -13,17 +13,43 @@
 <div>
   <h2>Roles management panel</h2>
 
-  <form:form method="POST" commandName="role" >
+<%--  <form:form method="POST" commandName="role" >
     <table>
       <tr>
-        <td>Role name</td>
-        <td><form:input path="name" maxlength="25" title="example: ROLE_ADMIN or ROLE_USER"/></td>
-          <%--<small>Must be alphanumeric with no spaces. Can contain underscores. Min 4 and Max 25 characters</small>--%>
-          <%--<form:errors path="username" cssClass="error" /></td>--%>
+        <td>Login</td>
+        <td><form:input path="name" maxlength="25"/></td>
       </tr>
+      <tr>
+        <td colspan="3"><input type="submit" /></td>
+      </tr>
+    </table>
+    <form:errors path="*" cssClass="error" />
+  </form:form>--%>
 
+
+
+
+  <form:form method="POST" modelAttribute="role" action="/admin/create_new_role">
+    <h3>Create new role</h3>
+    <table class="create_new_role">
+      <tr>
+        <td><form:label path="name">Role name: </form:label></td>
+        <td><form:input path="name" maxlength="25" title="example: ROLE_ADMIN or ROLE_USER"/></td>
+      </tr>
+      <tr>
+        <td>
+          <small id="username_msg">Must be alphanumeric with no spaces.</small>
+          <small id="username_msg">Can contain underscores. Min 4 and Max 25 characters</small>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <%--<form:errors path="name" cssClass="error" />--%>
+        </td>
+      </tr>
+      <tr>
         <td colspan="3"><input type="submit" value="Create new Role" /></td>
-
+      </tr>
     </table>
     <form:errors path="*" cssClass="error" />
   </form:form>

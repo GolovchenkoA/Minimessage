@@ -3,6 +3,7 @@ package ua.golovchenko.artem.minimessage.mvc;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ua.golovchenko.artem.minimessage.model.Message;
 import ua.golovchenko.artem.minimessage.service.MinimessagesService;
 
 import javax.inject.Inject;

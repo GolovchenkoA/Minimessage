@@ -12,11 +12,16 @@
     <ul>
         <%--Main users menu menu   --%>
         <li><a href="<s:url value="/j_spring_security_logout" />">Logout</a></li>
+        <%--<li><a href="<s:url value="/" />">Main Page</a></li>--%>
+        <li><a href="<s:url value="/messages/MyMessages" />">My Messages</a></li>
+        <li><a href="<s:url value="/accounts/all" />">All accounts</a></li>
+        <li><a href="<s:url value="/accounts/news" />">News</a></li>
 <%--        <li><a href="<s:url value="/accounts?username={login}" />">my account</a></li>
         <li><a href="<s:url value="/accounts?username={j_username}" />">my account</a></li>--%>
 
         <%--Additional Admin menu   --%>
         <security:authorize access="hasRole('ROLE_ADMIN')">
+            <br><small>Administators menu</small><br>
             <li><a href="<s:url value="/admin/accounts" />">All Accounts</a></li>
             <li><a href="<s:url value="/admin/roles" />">All Roles</a></li>
         </security:authorize>

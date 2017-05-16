@@ -56,6 +56,10 @@ subprojects{
 		springVersion = '3.1.2.RELEASE'
 		jacocoVersion = '0.7.9'
 		hibernateValidator = '5.4.1.Final'
+		LogbackVersion = '1.2.3'
+		slf4jVersion =  '1.5.8'
+		//slf4jVersion =  '1.6.1'
+		//slf4jVersion =  '1.4.2' // The maximum version. Used by hibernate
 	}
 
 
@@ -183,9 +187,8 @@ project('minimessage-dao'){
 		compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
 		compile "org.hibernate:hibernate-core:3.3.2.GA"
 		compile "org.hibernate:hibernate-annotations:3.4.0.GA"
-		//compile "org.slf4j:slf4j-api:1.6.1"
-		compile "org.slf4j:slf4j-api:1.5.8"
-		compile "org.slf4j:slf4j-nop:1.5.8"
+		compile ("org.slf4j:slf4j-api:$slf4jVersion")//{force = true} //comment 15.05.2017
+		compile "org.slf4j:slf4j-nop:$slf4jVersion"
 		compile "javassist:javassist:3.9.0.GA"
 		compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
 		 /* For Testing DAO  */
@@ -251,6 +254,15 @@ project('minimessage-web') {
 		compile "org.springframework.security:spring-security-taglibs:3.0.3.RELEASE" //include JSP-tags for view security
 		//compile "org.springframework.security:spring-security-ldap:3.0.3.RELEASE"
 
+		// Logging
+
+		//compile group: 'org.slf4j', name: 'slf4j-api', version: $slf4jVersion
+		runtime "org.slf4j:slf4j-api:$slf4jVersion"
+
+/*		// must usage or logback or slf4j
+		runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
+		runtime group: 'ch.qos.logback', name: 'logback-classic', version: "$LogbackVersion"*/
+
 		ext.cargoVersion = '1.6.2'
 		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
 				"org.codehaus.cargo:cargo-ant:$cargoVersion"
@@ -276,4 +288,13 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '3.4.1'
 }
 
+task ConfigurationsList << {
+	configurations.each { println it.name }
+}
 
+/* //Override resolve of dependency conflicts
+configurations.compile.resolutionStrategy {
+	failOnVersionConflict()
+}
+
+*/

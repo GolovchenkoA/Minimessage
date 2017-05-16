@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,6 +22,8 @@ import java.util.Date;
 public class Message implements Serializable {
     private Long id;
     private UserAccount account;
+
+    @Size(min=4, max=40)
     private String text;
     private java.util.Date created;
 

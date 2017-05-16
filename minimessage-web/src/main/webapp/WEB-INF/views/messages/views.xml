@@ -4,8 +4,9 @@
 
 <tiles-definitions>
 
-    <definition name="messages/list" extends="main_template_without_signup">
+    <definition name="messages/list" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/messages/list.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 
 

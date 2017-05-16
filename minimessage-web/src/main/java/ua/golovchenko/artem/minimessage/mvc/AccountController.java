@@ -1,23 +1,24 @@
 package ua.golovchenko.artem.minimessage.mvc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import ua.golovchenko.artem.minimessage.model.Message;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 import ua.golovchenko.artem.minimessage.service.MinimessagesService;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
+import org.springframework.security.core.Authentication;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Artem on 14.04.2017.
@@ -27,6 +28,8 @@ import java.util.List;
 public class AccountController {
 
     private final MinimessagesService minimessagesService;
+    private final Logger logger = LoggerFactory.getLogger(AccountController.class);
+
 
     @Inject
     public AccountController(MinimessagesService minimessagesService) {
@@ -43,14 +46,13 @@ public class AccountController {
         return "messages/list";
     }
 
-    @RequestMapping(params = "new", method = GET)
+    @RequestMapping(value="/create_new_account", method = GET)
     public String createAccountProfiler(Model model){
         model.addAttribute("account", new UserAccount());
         return "accounts/edit";
     }
 
-
-    @RequestMapping(method = POST)
+    @RequestMapping(value="/create_new_account",method = POST)
     /*public String addAccountFromForm(@Valid @ModelAttribute("newAccount") UserAccount account, BindingResult bindingResult){*/
     public String addAccountFromForm(@Valid UserAccount account, BindingResult bindingResult){
 
@@ -67,8 +69,99 @@ public class AccountController {
     /*When code was wrote field 'login' was named "username". In future i'm fix this */
     @RequestMapping(value = "/{username}",method = GET)
     public String showAccountProfiler(@PathVariable String username, Model model){
-        model.addAttribute("account", minimessagesService.getAccountByLogin(username));
+        UserAccount account = minimessagesService.getAccountByLogin(username);
+        Set<Message> messages = account.getMessages();
+
+
+        model.addAttribute("login", account.getUsername());
+        model.addAttribute("messages", messages);
         return "accounts/view";
     }
 
+    @RequestMapping(value = "/all",method = GET)
+    public String showAllAccounts(Model model){
+        List<UserAccount> accounts = minimessagesService.getAllAccounts();
+
+
+        model.addAttribute("accounts", accounts);
+        return "accounts/allAccounts";
+    }
+
+    @RequestMapping(value = "subscribe_to_publisher",method = POST)
+    public void subscribeToPublisher(String publisher_account, Authentication authentication){
+        String current_account_login = authentication.getName();
+        UserAccount subscriber = minimessagesService.getAccountByLogin(current_account_login);
+        UserAccount publisher = minimessagesService.getAccountByLogin(publisher_account);
+
+        if(publisher != null){
+            subscriber.addPublisher(publisher);
+            minimessagesService.update(subscriber);
+
+            logger.debug("Was Executed method subscribeToPublisher (method=POST) in class: "  + this.getClass().getName());
+        }
+    }
+
+    /*@RequestMapping(value="/{login}", method=PUT)*/
+    @RequestMapping(value="/subscribe_to/{login}", method=POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void subscribeToPublisherRESTstyle(@PathVariable("login") String publisher_account, Authentication authentication) {
+
+        String current_account_login = authentication.getName();
+        UserAccount subscriber = minimessagesService.getAccountByLogin(current_account_login);
+        UserAccount publisher = minimessagesService.getAccountByLogin(publisher_account);
+
+        if(publisher != null){
+            subscriber.addPublisher(publisher);
+            minimessagesService.update(subscriber);
+
+            logger.debug("Was Executed method subscribeToPublisherRESTstyle (method=PUT) in class:"  + this.getClass().getName());
+        }
+
+        //return "accounts/" ;
+    }
+
+    /*@RequestMapping(value="/{login}", method=DELETE)*/
+    @RequestMapping(value="/unsubscribe_from/{login}", method=POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void unsubscribeFromPublisherRESTstyle(@PathVariable("login") String publisher_account, Authentication authentication) {
+
+        String current_account_login = authentication.getName();
+        UserAccount subscriber = minimessagesService.getAccountByLogin(current_account_login);
+        UserAccount publisher = minimessagesService.getAccountByLogin(publisher_account);
+
+        if(publisher != null){
+            subscriber.removePublisher(publisher);
+            minimessagesService.update(subscriber);
+
+            logger.debug("Was Executed method unsubscribeFromPublisherRESTstyle (method=DELETE) in class:" + this.getClass().getName());
+        }
+    }
+
+    @RequestMapping(value = "/news",method = GET)
+    public String showPublishersMessages(Model model,Authentication authentication ){
+
+        String current_account_login = authentication.getName();
+        UserAccount current_account = minimessagesService.getAccountByLogin(current_account_login);
+
+        Set<Message> publishers_messages = new HashSet<>();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date messages_created_after = calendar.getTime();
+
+        // Collectin of last messages of publishers
+        for(UserAccount account : current_account.getPublishers()){
+            for(Message message: account.getMessages()){
+                // add messages created after "n" days
+                if(message.getCreated().after(messages_created_after)){
+                    publishers_messages.add(message);
+                }
+
+            }
+        }
+
+
+        model.addAttribute("publishers_messages", publishers_messages);
+        return "accounts/news";
+    }
 }

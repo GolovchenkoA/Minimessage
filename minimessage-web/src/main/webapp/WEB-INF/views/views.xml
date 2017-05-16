@@ -6,14 +6,10 @@
 
     <definition name="main_template"
                 template="/WEB-INF/views/main_template.jsp">
-<!--        <put-attribute name="top"
-                       value="/WEB-INF/views/tiles/spittleForm.jsp" />-->
+        <put-attribute name="top"
+                       value="/WEB-INF/views/tiles/messagesForm.jsp" />
         <put-attribute name="side"
                        value="/WEB-INF/views/tiles/signinsignup.jsp" />
-    </definition>
-
-    <definition name="main_template_without_signup" template="/WEB-INF/views/main_template_without_signup.jsp">
-        <put-attribute name="content" value="/WEB-INF/views/home.jsp"/>
     </definition>
 
     <definition name="home" extends="main_template">
@@ -29,6 +25,8 @@
         <put-attribute name="content" value="/WEB-INF/views/login.jsp" />
         <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
+
+    <definition name="blank" template="/WEB-INF/views/tiles/blank.jsp"/>
 
 
 <!--    <definition name="login" extends="template">

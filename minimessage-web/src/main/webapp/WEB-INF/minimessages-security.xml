@@ -40,7 +40,7 @@
         <intercept-url pattern="/resources/images/**" access="permitAll"/> <!--Exclude filter by mask  -->
 
 
-        <intercept-url pattern="\A/accounts\?new.*\Z" access="permitAll" /> <!--Example: /accounts?new  -->
+        <intercept-url pattern="/accounts/create_new_account" access="permitAll" />
         <intercept-url pattern="/home" filters="none"/> <!--Exclude filter by mask  -->
         <intercept-url pattern="/" filters="none"/> <!--Exclude filter by mask  -->
         <!--<intercept-url pattern="/accounts?new" filters="none"/>--> <!--Exclude filter by mask  -->
@@ -90,6 +90,10 @@
 
         </authentication-provider>
     </authentication-manager>
+
+
+    <!--Enable Spring security annotation(@Secured) for methods   -->
+    <global-method-security secured-annotations="enabled" />
 
 
 

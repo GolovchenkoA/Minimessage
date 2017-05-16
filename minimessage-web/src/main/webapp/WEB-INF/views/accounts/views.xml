@@ -6,7 +6,7 @@
 
     <definition name="accounts/edit" extends="main_template">
         <put-attribute name="content" value="/WEB-INF/views/accounts/edit.jsp" />
-        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/blank.jsp"/>
     </definition>
 
     <definition name="accounts/view" extends="main_template">
@@ -14,5 +14,15 @@
         <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 
+    <definition name="accounts/allAccounts" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/accounts/ListAllAccountsForUsers.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
+    </definition>
+
+
+    <definition name="accounts/news" extends="main_template">
+        <put-attribute name="content" value="/WEB-INF/views/accounts/news.jsp" />
+        <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp"/>
+    </definition>
 
 </tiles-definitions>

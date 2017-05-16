@@ -14,7 +14,7 @@
 <div>
   <h2>Welcome to Minimessages application</h2>
   <h3>Look at last messages</h3>
-  <ol class="minimessage-list">
+  <ol class="main-minimessages-list">
     <c:forEach var="message" items="${messages}">
 
       <s:url value="/accounts/{accountLogin}"

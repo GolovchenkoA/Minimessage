@@ -59,6 +59,7 @@ public class HibernateAccountRoleDAO implements AccountRoleDAO {
     @Override
     public List<AccountRole> listRoles() throws UnsupportedOperationException{
         Criteria criteria = currentSession().createCriteria(AccountRole.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //Exclude duplicates http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
         List<AccountRole> roles = criteria.list();
         return roles;
     }

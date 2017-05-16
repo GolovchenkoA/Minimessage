@@ -10,7 +10,7 @@
     </definition>
 
     <definition name="admin/accounts" extends="main_template">
-        <put-attribute name="content" value="/WEB-INF/views/admin/accounts.jsp" />
+        <put-attribute name="content" value="/WEB-INF/views/admin/ListAllAccountsForAdmins.jsp" />
         <put-attribute name="side" value="/WEB-INF/views/tiles/additional_right_panel.jsp" />
     </definition>
 

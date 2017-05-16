@@ -35,6 +35,8 @@ public class UserAccount implements Serializable {
     private String password;
     private Set<Message> messages = new HashSet<>();
     private Set<AccountRoleImpl> accountRoles = new HashSet<>();
+    private Set<UserAccount> publishers = new HashSet<>();
+    private Set<UserAccount> subscribers = new HashSet<>();
 
     private Date created;
     private boolean enabled;
@@ -104,10 +106,10 @@ public class UserAccount implements Serializable {
         this.messages = messages;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ACCOUNTS_AND_ROLES",
-            joinColumns = @JoinColumn(name = "ACCOUNT_ID",nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "ROLE_ID",nullable = false))
+            joinColumns = @JoinColumn(name = "ACCOUNT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
     public Set<AccountRoleImpl> getAccountRoles() {
         return accountRoles;
     }
@@ -123,6 +125,61 @@ public class UserAccount implements Serializable {
      public void removeRole(AccountRoleImpl role){
         accountRoles.remove(role);
     }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "SUBSCRIBERS",
+            joinColumns = @JoinColumn(name = "SUBSCRIBER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PUBLISHER_ID"))
+    public Set<UserAccount> getPublishers() {
+        return publishers;
+    }
+
+    public void setPublishers(Set<UserAccount> publishers) {
+        this.publishers = publishers;
+    }
+
+    public void addPublisher(UserAccount publisher){
+        if(publisher.getUsername()!= null){
+            publishers.add(publisher);
+        }else {
+            throw new IllegalArgumentException("Can't remove publisher. Login is null");
+        }
+
+    }
+
+    public void removePublisher(UserAccount publisher){
+
+        if(publisher.getUsername()!= null) {
+            publishers.remove(publisher);
+        }else {
+            throw new IllegalArgumentException("Can't add publisher. Login is null");
+        }
+
+    }
+
+
+    /*@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)*/
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "SUBSCRIBERS",
+            joinColumns = @JoinColumn(name = "PUBLISHER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "SUBSCRIBER_ID"))
+    public Set<UserAccount> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<UserAccount> subscribers) {
+        this.subscribers = subscribers;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -176,11 +233,4 @@ public class UserAccount implements Serializable {
                 '}';
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
 }

@@ -59,4 +59,27 @@
 
     <!--END  SPRING SECURITY   -->
 
+
+    <!--Logging  -->
+
+    <context-param>
+        <description>Logback config file</description>
+        <param-name>logbackConfigLocation</param-name>
+        <param-value>logback.xml</param-value>
+    </context-param>
+
+     <!--Set up message encoding for POST method. source http://www.skipy.ru/technics/encodings_webapp.html -->
+    <filter>
+        <filter-name>FormEncodingSetterFilter</filter-name>
+        <filter-class>ua.golovchenko.artem.minimessage.mvc.Filters.FormEncodingSetterFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>FormEncodingSetterFilter</filter-name>
+        <url-pattern>/messages/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

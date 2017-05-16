@@ -1,7 +1,7 @@
 body {
     background: #ff9933 url(../images/minimessages_background.png) 100%
-    /*fixed left top;*/
-    /*color: #333333;
+    fixed: left top;
+    color: #333333;
     font-family: 'Lucida Grande',sans-serif;
     font-size: 0.75em;
     font-size-adjust: none;
@@ -10,7 +10,7 @@ body {
     font-variant: normal;
     font-weight: normal;
     line-height: 1.5;
-    text-align: center;*/
+    text-align: center;
 }
 
 #container {
@@ -19,7 +19,7 @@ body {
     position: relative;
     text-align: left;
     vertical-align: bottom;
-    width: 755px;
+    width: 855px;
 }
 
 #top {
@@ -31,7 +31,8 @@ body {
 #content {
     float: left;
     padding-bottom: 15px;
-    width: 535px;
+    //width: 535px;
+    width: 570px;
     background: #FFFFFF;
     margin-top: 6px;
     padding: 10px;
@@ -60,24 +61,24 @@ td label {
 
 table.horizontalRuled td th {
     border-bottom: 1px solid #BBBBBB;
-}
 
+}
 
 
 fieldset {
     margin: 10px 0pt;
 }
 
-.spitItSubmitIt {
+.messageSubmit {
     width:100%;
     text-align:right;
 }
 
-/*fieldset input[type="text"],input[type="password"],select,checkbox {
+fieldset input[type="text"],input[type="password"],select,checkbox {
     border: 1px solid #AAAAAA;
     margin-right: 3px;
     padding: 4px 2px;
-}*/
+}
 
 fieldset input[type="text"],input[type="password"] {
     width: 12em;
@@ -216,3 +217,58 @@ span.error {
     color: red;
     font-size: 8pt;
 }
+
+/* Table with user messages */
+.user-minimessages-list{
+    border-collapse: collapse;
+    border-spacing: 5px ;
+}
+
+table.user-minimessages-list th {
+
+}
+
+
+/* ---------Drop Down menu on the bottom-----------------------*/
+
+/*Button */
+.dropbutton{
+    background-color: #333333;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+
+/*Button on hover & focus */
+.dropbutton:hover,
+.dropbutton:focus{
+    background-color: #BBBBBB;
+}
+
+.dropdown{
+    position: relative;
+    display: inline-block;
+}
+
+/*Links inside the dropdown */
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: #EEEEEE;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover{ background-color: #f1f1f1}
+
+.show{display:list-item;}
+
+
+
+

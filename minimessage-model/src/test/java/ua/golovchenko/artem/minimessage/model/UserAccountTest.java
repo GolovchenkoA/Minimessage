@@ -19,6 +19,7 @@ public class UserAccountTest {
 
     @Autowired
     UserAccount userAccount;
+    private Set<UserAccount> accounts;
 
 
     @Before
@@ -111,15 +112,16 @@ public class UserAccountTest {
         UserAccount account = getNewUserAccountWithRoleUser();
         Set<Message> messages = new HashSet<>();
         // Account 2
-        Set<Message> messages2 = new HashSet<>();
         UserAccount account2 = getNewUserAccountWithRoleUser();
+        Set<Message> messages2 = new HashSet<>();
+
 
 
         //add messages to account 1
         messages.add(new Message(account,"text",created));
         account.setMessages(messages);
         //add messages to account 1
-        messages2.add(new Message(account,"text2",created));
+        messages2.add(new Message(account,"text",created));
         account2.setMessages(messages2);
 
 
@@ -128,8 +130,28 @@ public class UserAccountTest {
 
     }
 
+
+
      @Test
-    public void testAccountsWithSameRolesAndMessagesShouldNotBeEquals(){
+    public void testAccountsWithDifferentRolesShouldNotBeEquals(){
+
+        Date created = new Date();
+        // Account 1
+        UserAccount user = getNewUserAccountWithRoleUser();
+        // Account 2
+        UserAccount admin = getNewUserAccountWithRoleAdmin();
+
+        assertFalse("Compare accounts", user.equals(admin));
+        assertFalse("Compare accounts", admin.equals(user));
+
+    }
+
+
+
+
+
+     @Test
+    public void testAccountsWithDifferentMessagesShouldNotBeEquals(){
 
         Date created = new Date();
          // Account 1
@@ -159,6 +181,45 @@ public class UserAccountTest {
 
         userAccount.setEnabled(false);
         assertFalse(userAccount.isEnabled());
+    }
+
+
+    @Test
+    public void testSetPublishersThanGetPublishersShouldBeEquals() {
+
+        UserAccount account = getNewUserAccountWithRoleUser();
+        Set<UserAccount> Publishers = getSetOfAccounts();
+
+        account.setPublishers(Publishers);
+
+        assertEquals("Account Publishers", getSetOfAccounts(), account.getPublishers());
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddPublisherWithoutLoginShouldThowException(){
+        UserAccount account = getNewUserAccountWithRoleUser();
+        account.addPublisher(new UserAccount());
+    }
+
+        @Test(expected = IllegalArgumentException.class)
+    public void testRemovePublisherWithoutLoginShouldThowException(){
+        UserAccount account = getNewUserAccountWithRoleUser();
+        account.removePublisher(new UserAccount());
+    }
+
+
+    @Test
+    public void testAddPublisherThenRemovePublisher(){
+        UserAccount Publisher = new UserAccount("Login","Password", new Date());
+        UserAccount account = getNewUserAccountWithRoleUser();
+        account.addPublisher(Publisher);
+
+        assertEquals("Publishers count",1,account.getPublishers().size());
+
+        account.removePublisher(Publisher);
+
+        assertEquals("Publishers count should be zero",0,account.getPublishers().size());
 
     }
 
@@ -175,6 +236,22 @@ public class UserAccountTest {
         return  account;
     }
 
+    private UserAccount getNewUserAccountWithRoleAdmin(){
+        Date created = new Date();
+
+        UserAccount account = new UserAccount("name","password", created);
+        AccountRoleImpl role = new AccountRoleImpl("admin");
+        account.addRole(role);
+
+        return  account;
+    }
 
 
+    private Set<UserAccount> getSetOfAccounts() {
+        Set<UserAccount> accounts = new HashSet<>();
+        accounts.add(new UserAccount("Login","Password",new Date()));
+        accounts.add(new UserAccount("Login2","Password2",new Date()));
+
+        return accounts;
+    }
 }

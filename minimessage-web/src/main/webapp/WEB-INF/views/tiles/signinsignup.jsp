@@ -32,7 +32,7 @@
     		<div class="notify">
                 Do you want a new account?
               <br/>
-              <a class="join" href="<s:url value="/accounts?new"/>">Create new account!</a>
+              <a class="join" href="<s:url value="/accounts/create_new_account"/>">Create new account!</a>
               <br/>
             </div>
   <%--</sec:authorize>--%>

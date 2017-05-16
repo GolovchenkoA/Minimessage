@@ -25,21 +25,22 @@
     }
   </script>--%>
 
-  <table cellspacing="15" class="horizontalRuled" border-collapse: collapse>
-    <thead align="right">
+  <table class="user-minimessages-list horizontalRuled">
+    <thead>
       <tr>
-        <th>Login</th>
-        <th>Message</th>
         <th>Date</th>
+        <th>Message</th>
       </tr>
     </thead>
+
     <c:forEach items="${messagesList}" var="message">
       <s:url value="/accounts/${message.account.username}" var="account_url"/>
       <tr>
+        <td><small><fmt:formatDate value="${message.created}" pattern="hh:mm MMM d, yyyy" /></small>
+        </td>
         <td>
-          <a href="${account_url}">${message.account.username}</a>
-          <small><c:out value="${message.text}"/></small>
-          <small><fmt:formatDate value="${message.created}" pattern="hh:mm MMM d, yyyy" /></small>
+            <c:out value="${message.text}"/>
+        </td>
 <%--          <s:url value="/spittles/${spittle.id}" var="spittle_url" />
           <sf:form method="delete" action="${spittle_url}"
                    name="deleteSpittle_${spittle.id}"

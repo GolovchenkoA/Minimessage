@@ -5,4 +5,4 @@ CREATE TABLE `messages` (
     `account_id` bigint(20) DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `FK131AF14C6AF55BF6` (`account_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

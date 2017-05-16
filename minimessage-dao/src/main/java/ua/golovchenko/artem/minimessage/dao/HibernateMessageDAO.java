@@ -72,6 +72,7 @@ public class HibernateMessageDAO implements MessageDAO{
     public List<Message> getRecentMessages(int count) {
 
         Criteria criteria = currentSession().createCriteria(Message.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //Exclude duplicates http://stackoverflow.com/questions/1995080/hibernate-criteria-returns-children-multiple-times-with-fetchtype-eager
         criteria.addOrder(Order.desc("created"));
         criteria.setMaxResults(count);
 

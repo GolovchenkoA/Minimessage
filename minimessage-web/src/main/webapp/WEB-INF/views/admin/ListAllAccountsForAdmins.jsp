@@ -16,7 +16,7 @@
     <h2>Accounts</h2>
 
 
-    <table border="1" style="border-collapse: collapse">
+    <table class="accounts_list" border="1" style="border-collapse: collapse">
 
       <tr>
         <th>id</th>

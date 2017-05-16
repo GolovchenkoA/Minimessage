@@ -40,4 +40,26 @@
        </bean>
 
 
+       <bean id="messageSource"
+             class="org.springframework.context.support.ResourceBundleMessageSource">
+              <property name="basenames">
+                     <list>
+                            <value>ui</value><!-- file with user interface messages /resources/ui.properties  -->
+                     </list>
+              </property>
+       </bean>
+
+
+       <mvc:interceptors>
+              <mvc:interceptor>
+                     <mvc:mapping path="/**" />
+                     <bean class="ua.golovchenko.artem.minimessage.mvc.MessageBeanInterceptor" />
+              </mvc:interceptor>
+<!--               <mvc:interceptor>
+                     <mvc:mapping path="/admin/**" />
+                     <bean class="ua.golovchenko.artem.minimessage.mvc.RoleBeanInterceptor" />
+              </mvc:interceptor>-->
+
+       </mvc:interceptors>
+
 </beans>
