@@ -17,7 +17,7 @@ description = 'minimessage. Application like Twitter'
 ext{
 	gradleVersion = '3.4.1'
 	javaVersion = '1.8.0_73'
-	projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.0.0.SNAPSHOT']
+	projectIds = ['group': 'ua.golovchenko.artem.minimessage', 'version': '1.1.0']
 	MySQLVersion = '6.0.6'
 }
 version = projectIds.version
@@ -267,6 +267,11 @@ project('minimessage-web') {
 		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
 				"org.codehaus.cargo:cargo-ant:$cargoVersion"
 
+
+		/*war {
+			archiveName = "minimessage-" + version +"-" + System.currentTimeMillis() + ".war";
+		}*/
+
 	}
 
 
@@ -298,3 +303,7 @@ configurations.compile.resolutionStrategy {
 }
 
 */
+
+war {
+	archiveName = "minimessage-" + projectIds.version +"-" + System.currentTimeMillis();
+}

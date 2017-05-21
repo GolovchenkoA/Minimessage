@@ -8,7 +8,10 @@
       <h3>Sign In!</h3>
     </div>
 
-    <form class="signin" action="<s:url value="/static/j_spring_security_check"/>" method="post">
+        <%--work only on OS Windows--%>
+    <%--<form class="signin" action="<s:url value="/static/j_spring_security_check"/>" method="post">--%>
+         <%--Work on OS Windows and Linux --%>
+      <form class="signin" action="<s:url value="/j_spring_security_check"/>" method="post">
     <%--<form class="signin"  method="post">--%>
       <fieldset>
         <div>

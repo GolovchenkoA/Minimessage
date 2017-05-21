@@ -5,7 +5,8 @@
 
 
      <%--<form:form method="POST" commandName="account" enctype="multipart/form-data">--%> <%-- enctype="multipart/form-data"  приводит к тому что объект не принимается сервлетом  --%>
-     <form:form method="POST" commandName="account" >
+     <%--<form:form method="POST" commandName="account" >--%>
+     <form:form method="POST" modelAttribute="account" >
         <%--<form:errors path="*" cssClass="errorblock" element="div" />--%><%--Show error messages at the top   --%>
         <table>
             <tr>

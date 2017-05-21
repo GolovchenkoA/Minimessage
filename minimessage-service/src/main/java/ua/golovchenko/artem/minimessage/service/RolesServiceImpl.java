@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.golovchenko.artem.minimessage.dao.AccountRoleDAO;
 import ua.golovchenko.artem.minimessage.model.AccountRole;
+import ua.golovchenko.artem.minimessage.model.AccountRoleImpl;
 
 import java.util.List;
 
@@ -38,5 +39,11 @@ public class RolesServiceImpl implements RolesService {
     @Override
     public List<AccountRole> listRoles() {
         return accountRoleDAO.listRoles();
+    }
+
+    @Override
+    public AccountRole findByName(String roleName){
+           /*return (AccountRoleImpl)accountRoleDAO.get(roleName);*/
+           return accountRoleDAO.get(roleName);
     }
 }

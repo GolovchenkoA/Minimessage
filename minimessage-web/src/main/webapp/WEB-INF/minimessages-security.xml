@@ -17,7 +17,7 @@
         <!--Description settings (for v3.2.0) https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security/ -->
         <form-login
                 default-target-url="/welcome"
-                always-use-default-target='false'/>
+                always-use-default-target='true'/>
         <logout logout-success-url="/home"  />
 
 <!--
@@ -78,13 +78,13 @@
             <jdbc-user-service data-source-ref="dataSource"
                   users-by-username-query="
                       select username,password,case enabled when 1 then 'true' else 'false' end 'enabled'
-                      from user_accounts WHERE username=?"
+                      from USER_ACCOUNTS WHERE username=?"
 
                   authorities-by-username-query="
                     select account.username,roles.name
-                    from user_accounts account inner join accounts_and_roles role
+                    from USER_ACCOUNTS account inner join ACCOUNTS_AND_ROLES role
                     on account.id = role.account_id
-                    inner join accounts_roles roles
+                    inner join ACCOUNTS_ROLES roles
                     on role.role_id = roles.id
                     where account.username = ?"/>
 

@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import ua.golovchenko.artem.minimessage.model.AccountRole;
+import ua.golovchenko.artem.minimessage.model.AccountRoleImpl;
 import ua.golovchenko.artem.minimessage.model.Message;
 import ua.golovchenko.artem.minimessage.model.UserAccount;
 import ua.golovchenko.artem.minimessage.service.MinimessagesService;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.security.core.Authentication;
+import ua.golovchenko.artem.minimessage.service.RolesService;
+import ua.golovchenko.artem.minimessage.service.RolesServiceImpl;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -28,13 +32,16 @@ import java.util.*;
 public class AccountController {
 
     private final MinimessagesService minimessagesService;
+    private final RolesService rolesService;
     private final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 
     @Inject
-    public AccountController(MinimessagesService minimessagesService) {
+    public AccountController(MinimessagesService minimessagesService, RolesService rolesService) {
         this.minimessagesService = minimessagesService;
+        this.rolesService = rolesService;
     }
+
 
     @RequestMapping(value="/messages", method=GET)
     public String listMessagesForAccount(@RequestParam("account") String login, Model model){
@@ -62,6 +69,13 @@ public class AccountController {
 
         account.setCreated(new Date());
         account.setEnabled(true);
+
+        // Default account role
+        Set<AccountRoleImpl> roles = new HashSet<>();
+        AccountRoleImpl role_user = (AccountRoleImpl)rolesService.findByName("ROLE_USER");
+        roles.add(role_user);
+        account.setAccountRoles(roles);
+
         minimessagesService.saveAccount(account);
         return "redirect:/accounts/" + account.getUsername();
     }
@@ -87,7 +101,8 @@ public class AccountController {
         return "accounts/allAccounts";
     }
 
-    @RequestMapping(value = "subscribe_to_publisher",method = POST)
+      /* Old method  */
+/*    @RequestMapping(value = "subscribe_to_publisher",method = POST)
     public void subscribeToPublisher(String publisher_account, Authentication authentication){
         String current_account_login = authentication.getName();
         UserAccount subscriber = minimessagesService.getAccountByLogin(current_account_login);
@@ -99,7 +114,7 @@ public class AccountController {
 
             logger.debug("Was Executed method subscribeToPublisher (method=POST) in class: "  + this.getClass().getName());
         }
-    }
+    }*/
 
     /*@RequestMapping(value="/{login}", method=PUT)*/
     @RequestMapping(value="/subscribe_to/{login}", method=POST)
