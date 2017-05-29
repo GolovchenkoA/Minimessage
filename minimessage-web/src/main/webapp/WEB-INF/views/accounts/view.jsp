@@ -7,19 +7,22 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <h2>Account " ${login} " info </h2>
+
 
 <div class="subscribe">
   <table>
       <tr >
           <td >
-            <form:form  action="/accounts/subscribe_to/${login}" method="POST">
+            <%--<form:form  action="/accounts/subscribe_to/${login}" method="POST">--%> <%--.  work on windows (Tomcat 7) / doesn't work on linux (Apache Tomcat/7.0.68 (Ubuntu)).  --%>
+            <form:form  action="${pageContext.request.contextPath}/accounts/subscribe_to/${login}" method="POST">
               <%--<input type="button" id="subscribe_to_publisher" name="subscribe" value="subscribe">--%>
               <input type="submit" id="subscribe_to_publisher" name="subscribe" value="subscribe">
             </form:form >
           </td>
           <td>
-            <form action="/accounts/unsubscribe_from/${login}" method="POST">
+            <form action="${pageContext.request.contextPath}/accounts/unsubscribe_from/${login}" method="POST">
               <input type="submit" id="unsubscribe_from_publisher" name="unsubscribe" value="unsubscribe">
             </form>
           </td>
