@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%--<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <h2>Account " ${login} " info </h2>
 
 
@@ -35,7 +37,7 @@
 
   <h3>Last messages</h3>
 
-  <table cellspacing="15" class="horizontalRuled" border-collapse: collapse>
+  <table cellspacing="15" class="user-minimessages-list horizontalRuled" border-collapse: collapse>
     <thead align="right">
     <tr>
       <th>Message</th>
@@ -45,7 +47,7 @@
     <c:forEach var="message" items="${messages}">
       <tr>
         <td><c:out value="${message.text}"/></td>
-        <td></td><fmt:formatDate value="${message.created}" pattern="hh:mm MMM d, yyyy" /></td>
+        <td><fmt:formatDate value="${message.created}" pattern="hh:mm MMM d, yyyy"/></td>
       </tr>
     </c:forEach>
 </div>
