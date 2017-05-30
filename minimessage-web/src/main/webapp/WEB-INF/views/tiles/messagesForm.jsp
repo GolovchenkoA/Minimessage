@@ -15,7 +15,7 @@
 
   <sec:authorize access="hasRole('ROLE_USER')">
 
-    <s:url value="/messages/create_new_message" var="messages_url" />
+    <s:url value="/messages" var="messages_url" /> <%--RESTful style--%>
 <table>
     <form:form commandName="message" method="POST" action="${messages_url}">
       <tr><td><form:label path="text"><s:message code="label.message" text="Enter message:"/></form:label></td></tr>

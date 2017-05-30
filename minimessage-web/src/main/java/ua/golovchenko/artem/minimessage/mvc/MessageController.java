@@ -35,15 +35,7 @@ public class MessageController {
         this.minimessagesService = minimessagesService;
     }
 
-
-/*    @RequestMapping(method = GET)
-    public String messagesMain(Model model){
-        model.addAttribute("message",new Message());
-        return "messages/MyMessages";
-    }*/
-
-
-    @RequestMapping(value="/create_new_message", method = POST, headers = "Accept=text/html")
+    @RequestMapping(method = POST, headers = "Accept=text/html") /*RESTful style  */
     public String createMessageFromForm(@Valid Message message,BindingResult result, Authentication authentication)
             throws org.springframework.validation.BindException {
 

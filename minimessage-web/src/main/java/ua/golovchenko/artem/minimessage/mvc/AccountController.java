@@ -101,21 +101,6 @@ public class AccountController {
         return "accounts/allAccounts";
     }
 
-      /* Old method  */
-/*    @RequestMapping(value = "subscribe_to_publisher",method = POST)
-    public void subscribeToPublisher(String publisher_account, Authentication authentication){
-        String current_account_login = authentication.getName();
-        UserAccount subscriber = minimessagesService.getAccountByLogin(current_account_login);
-        UserAccount publisher = minimessagesService.getAccountByLogin(publisher_account);
-
-        if(publisher != null){
-            subscriber.addPublisher(publisher);
-            minimessagesService.update(subscriber);
-
-            logger.debug("Was Executed method subscribeToPublisher (method=POST) in class: "  + this.getClass().getName());
-        }
-    }*/
-
     /*@RequestMapping(value="/{login}", method=PUT)*/
     @RequestMapping(value="/subscribe_to/{login}", method=POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
