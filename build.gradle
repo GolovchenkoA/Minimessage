@@ -58,8 +58,6 @@ subprojects{
 		hibernateValidator = '5.4.1.Final'
 		LogbackVersion = '1.2.3'
 		slf4jVersion =  '1.5.8'
-		//slf4jVersion =  '1.6.1'
-		//slf4jVersion =  '1.4.2' // The maximum version. Used by hibernate
 	}
 
 
@@ -150,19 +148,11 @@ subprojects{
 		}
 	}
 
-
-/*	tasks.withType(Test) {
-		group ='testing'
-		description= 'https://discuss.gradle.org/t/jacoco-multiproject-build-cant-load-jacocoagent/11540/2'
-		systemProperties = System.properties
-		systemProperties['user.dir'] = workingDir
-	}*/
-
 }
 
 
 project('minimessage-model'){
-	version = '1.0.0.SNAPSHOT'
+	version = '1.0.0'
 	description = 'Domain models'
 
 dependencies{
@@ -177,7 +167,7 @@ dependencies{
 }
 
 project('minimessage-dao'){
-	version = '1.0.0.SNAPSHOT'
+	version = '1.0.0'
 	description = 'Databases access object classes'
 
 	dependencies {
@@ -192,7 +182,6 @@ project('minimessage-dao'){
 		compile "javassist:javassist:3.9.0.GA"
 		compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.0-api', version: '1.0.1.Final'
 		 /* For Testing DAO  */
-		//testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.2.8'
 		testCompile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
 		testCompile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
 		testCompile group: 'cglib', name: 'cglib', version: '2.2.2'
@@ -204,7 +193,7 @@ project('minimessage-dao'){
 }
 
 project('minimessage-service'){
-	version = '1.0.0.SNAPSHOT'
+	version = '1.0.0'
 	description = 'Services'
 
 	dependencies{
@@ -227,7 +216,7 @@ project('minimessage-web') {
 	apply plugin: 'com.bmuschko.cargo'
 
 
-	version = '1.0.0.SNAPSHOT'
+	version = '1.0.0'
 	description = 'Minimessages Web'
 	
 	apply plugin: 'war'
@@ -252,11 +241,8 @@ project('minimessage-web') {
 		compile "org.springframework.security:spring-security-web:3.0.3.RELEASE" // Filter usage
 		compile "org.springframework.security:spring-security-config:3.0.3.RELEASE" //Provides XML namespace support
 		compile "org.springframework.security:spring-security-taglibs:3.0.3.RELEASE" //include JSP-tags for view security
-		//compile "org.springframework.security:spring-security-ldap:3.0.3.RELEASE"
 
 		// Logging
-
-		//compile group: 'org.slf4j', name: 'slf4j-api', version: $slf4jVersion
 		runtime "org.slf4j:slf4j-api:$slf4jVersion"
 
 /*		// must usage or logback or slf4j
@@ -266,11 +252,6 @@ project('minimessage-web') {
 		ext.cargoVersion = '1.6.2'
 		cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
 				"org.codehaus.cargo:cargo-ant:$cargoVersion"
-
-
-		/*war {
-			archiveName = "minimessage-" + version +"-" + System.currentTimeMillis() + ".war";
-		}*/
 
 	}
 
@@ -296,13 +277,6 @@ task wrapper(type: Wrapper) {
 task ConfigurationsList << {
 	configurations.each { println it.name }
 }
-
-/* //Override resolve of dependency conflicts
-configurations.compile.resolutionStrategy {
-	failOnVersionConflict()
-}
-
-*/
 
 war {
 	archiveName = "minimessage-" + projectIds.version +"-" + System.currentTimeMillis();
