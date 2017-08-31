@@ -1,4 +1,4 @@
-CREATE TABLE `accounts_roles` (
+CREATE TABLE `ACCOUNTS_ROLES` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),

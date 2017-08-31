@@ -1,4 +1,4 @@
-CREATE TABLE `messages` (
+CREATE TABLE `MESSAGES` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `created` datetime DEFAULT NULL,
     `text` varchar(255) DEFAULT NULL,
