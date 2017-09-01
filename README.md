@@ -1,24 +1,26 @@
 # Application like Twitter
 
 ## Inititalization database for application
-- Step-by-step execute scripts from folder *\minimessage-dao\src\test\resources\db*
-**After executed first script you must manual swithching to new database 'MINIMESSAGES'**
-- create database user and grant full privileges to database
-- Create file with jdbc settings for production \minimessage-dao\src\main\resources\jdbc.properties
-- And create similar file for development \minimessage-dao\src\main\resources\jdbc-dev.properties
+- Step-by-step execute scripts from folder *\minimessage-dao\src\test\resources\db*</br>
+**After executed first script you must manual swithching to new database 'MINIMESSAGES'**</br>
+- create database user and grant full privileges to database</br>
+- Create file with jdbc settings for production \minimessage-dao\src\main\resources\jdbc.properties</br>
+- And create similar file for development \minimessage-dao\src\main\resources\jdbc-dev.properties</br>
 
-**jdbc.properties file structure:**
-_jdbc.driver=com.mysql.jdbc.Driver_
-_jdbc.url=jdbc:mysql://localhost:3306/minimessage?characterEncoding=utf8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false_
-_jdbc.username=minimessage_user_
-_jdbc.password=db_user_password_
+**jdbc.properties file structure:**</br>
+_jdbc.driver=com.mysql.jdbc.Driver_</br>
+_jdbc.url=jdbc:mysql://localhost:3306/minimessage?characterEncoding=utf8&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false_</br>
+_jdbc.username=minimessage_user_</br>
+_jdbc.password=db_user_password_</br>
 
-- Execute command (from root project folder)
+- Execute command (from root project folder)</br>
 _gradlew war_
 
-- Deploy war-file in web-container. For example Apache Tomcat
+
+- Deploy war-file in web-container. For example Apache Tomcat</br>
 **path to file:** _'\minimessage-web\build\libs\minimessage-web-1.0.0.war'_
 
+</br></br>
 # Changes history
 16.04.2017
 1. Now we can get user messages by the web-interface
